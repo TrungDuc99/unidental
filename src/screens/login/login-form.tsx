@@ -1,10 +1,17 @@
 /* eslint-disable max-lines-per-function */
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import auth from '@react-native-firebase/auth';
 import { Eye, EyeSlash } from 'iconsax-react-native';
 import React, { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
+import {
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+  LoginManager,
+} from 'react-native-fbsdk-next';
 import * as z from 'zod';
 
 import { Spacing } from '@/configs';
@@ -45,6 +52,58 @@ export const LoginForm = ({
   const { handleSubmit, control } = useForm<FormType>({
     resolver: zodResolver(schema),
   });
+  const onFacebookButtonPress = async () => {
+    // Attempt login with permissions
+    const result = await LoginManager.logInWithPermissions([
+      'public_profile',
+      'email',
+    ]);
+
+    if (result.isCancelled) {
+      throw 'User cancelled the login process';
+    }
+
+    // Once signed in, get the users AccessToken
+    const data = await AccessToken.getCurrentAccessToken();
+
+    if (!data) {
+      throw 'Something went wrong obtaining access token';
+    }
+    const accessToken = data.accessToken;
+    const graphRequestParams = {
+      parameters: {
+        fields: {
+          string: 'id,name,email,picture.type(large)', // Chỉ lấy id, tên, email và ảnh đại diện
+        },
+        access_token: {
+          string: accessToken.toString(),
+        },
+      },
+    };
+    const graphRequest = new GraphRequest(
+      '/me',
+      graphRequestParams,
+      (error, result: any) => {
+        if (error) {
+          console.log('Lỗi khi lấy thông tin người dùng: ' + error.toString());
+        } else {
+          console.log('Thông tin người dùng: ' + JSON.stringify(result));
+
+          // Ảnh đại diện nằm trong thuộc tính picture.data.url
+          const profilePictureURL = result.picture.data.url;
+          console.log('Ảnh đại diện: ' + profilePictureURL);
+        }
+      }
+    );
+    new GraphRequestManager().addRequest(graphRequest).start();
+    // Create a Firebase credential with the AccessToken
+    const facebookCredential = auth.FacebookAuthProvider.credential(
+      data.accessToken
+    );
+
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(facebookCredential);
+  };
 
   return (
     <ScrollContainer>
@@ -121,9 +180,59 @@ export const LoginForm = ({
           <Divider orientation={'horizontal'} width={120} />
         </View>
         <View />
+        {/* <LoginButton
+          onLoginFinished={(error: any, result: any) => {
+            if (error) {
+              console.log('login has error: ' + result.error);
+            } else if (result.isCancelled) {
+              console.log('login is cancelled.');
+            } else {
+              AccessToken.getCurrentAccessToken().then((data: any) => {
+                const accessToken = data.accessToken;
+                // Gọi API để lấy thông tin người dùng
+                const graphRequestParams = {
+                  parameters: {
+                    fields: {
+                      string: 'id,name,email,picture.type(large)', // Chỉ lấy id, tên, email và ảnh đại diện
+                    },
+                    access_token: {
+                      string: accessToken.toString(),
+                    },
+                  },
+                };
+                const graphRequest = new GraphRequest(
+                  '/me',
+                  graphRequestParams,
+                  (error, result: any) => {
+                    if (error) {
+                      console.log(
+                        'Lỗi khi lấy thông tin người dùng: ' + error.toString()
+                      );
+                    } else {
+                      console.log(
+                        'Thông tin người dùng: ' + JSON.stringify(result)
+                      );
 
+                      // Ảnh đại diện nằm trong thuộc tính picture.data.url
+                      const profilePictureURL = result.picture.data.url;
+                      console.log('Ảnh đại diện: ' + profilePictureURL);
+                    }
+                  }
+                );
+
+                new GraphRequestManager().addRequest(graphRequest).start();
+              });
+            }
+          }}
+          onLogoutFinished={() => console.log('logout.')}
+        /> */}
         <View className="mb-10 flex flex-row items-center justify-between px-3">
-          <CardBase className=" px-4 py-1" onPress={() => {}}>
+          <CardBase
+            className=" px-4 py-1"
+            onPress={() => {
+              onFacebookButtonPress();
+            }}
+          >
             <Facebook />
           </CardBase>
           <CardBase className=" px-4  py-1" onPress={() => {}}>
@@ -147,4 +256,17 @@ export const LoginForm = ({
       </View>
     </ScrollContainer>
   );
+};
+const a = {
+  accessToken:
+    'EAAIgc2oIyrMBAFd2QsGf2ywU9bJarYVas8TdBunN380OYaZBXda0mofUTDU39jcxk46QwZBVKknjb1j7eVePW4ZBwgw78abKWmA5WkhGI4i6xQsMpCL5Y9Rm4bWwuV9vwBGLVz9OfQU45afHJD7BKZArO9ycjX1thMhAydOI3WjitEt4MQCOYZCEdXFbUxQFcr2OqYlldL33XYGtWSAEkh9l9N3SuowQajlcRcfTHXgZDZD',
+  accessTokenSource: 'FACEBOOK_APPLICATION_WEB',
+  applicationID: '598630025710259',
+  dataAccessExpirationTime: 1697212819000,
+  declinedPermissions: [],
+  expirationTime: 1694620474118,
+  expiredPermissions: [],
+  lastRefreshTime: 1689436820119,
+  permissions: ['openid', 'public_profile', 'email'],
+  userID: '1312341403038732',
 };
