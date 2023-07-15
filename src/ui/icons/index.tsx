@@ -1,6 +1,8 @@
 export * from './arrow-right';
+export * from './facebook';
 export * from './feed';
 export * from './github';
+export * from './google';
 export * from './home';
 export * from './language';
 export * from './no-data';
@@ -10,3 +12,4 @@ export * from './share';
 export * from './style';
 export * from './support';
 export * from './website';
+export * from './zalo';

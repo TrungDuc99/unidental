@@ -49,7 +49,7 @@ export const Input = React.forwardRef<TextInput, NInputProps>((props, ref) => {
     iconRight,
     labelButtonRight,
     onPressButtonRight,
-    size = 'medium',
+
     ...inputProps
   } = props;
   const IconLeft = iconLeft?.name;
@@ -72,8 +72,8 @@ export const Input = React.forwardRef<TextInput, NInputProps>((props, ref) => {
       {label && (
         <Text
           variant="sm"
-          className={`mb-2 font-medium ${
-            error ? 'text-danger-600' : 'text-#112950'
+          className={`font-semibold ${
+            error ? 'text-danger-600' : 'text-textprimary-100'
           } `}
         >
           {label} {required && <Text className="text-danger-600 ">*</Text>}
@@ -82,53 +82,34 @@ export const Input = React.forwardRef<TextInput, NInputProps>((props, ref) => {
 
       <View
         style={[
-          {
-            height: size === 'small' ? 50 : size === 'large' ? 60 : 55,
-          },
+          // {
+          //   height: size === 'small' ? 50 : size === 'large' ? 60 : 55,
+          // },
           error
             ? isFocussed
               ? {
-                  backgroundColor: 'white',
-                  shadowColor: '#000',
-                  shadowOffset: {
-                    width: 0,
-                    height: 1,
-                  },
-                  shadowOpacity: 0.22,
-                  shadowRadius: 2.22,
-
-                  elevation: 3,
+                  borderBottomWidth: 1.5,
+                  borderBottomColor: colors.danger[600],
                 }
               : {
-                  borderWidth: 0.7,
-                  borderColor: colors.danger[600],
-                  backgroundColor: '#f5f5f5',
+                  borderBottomWidth: 1.5,
+                  borderBottomColor: colors.danger[600],
                 }
             : isFocussed
             ? {
-                backgroundColor: 'white',
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 1,
-                },
-                shadowOpacity: 0.22,
-                shadowRadius: 2.22,
-
-                elevation: 3,
+                borderBottomWidth: 1.5,
+                borderBottomColor: colors.primary[600],
               }
             : {
-                borderWidth: 0.7,
-                borderColor: colors.neutral[300],
-                backgroundColor: '#f5f5f5',
+                borderBottomWidth: 1.5,
+                borderColor: colors.neutral[100],
               },
         ]}
-        className={`w-full flex-row 
-        ${labelButtonRight ? 'pl-4 pr-2' : 'px-4'} 
+        className={`w-full flex-row
         content-center 
         items-center 
         justify-center 
-        rounded-2xl
+       
           ${textDirection}
            `}
       >
@@ -138,7 +119,7 @@ export const Input = React.forwardRef<TextInput, NInputProps>((props, ref) => {
               iconLeft.custom
                 ? {
                     backgroundColor: colors.primary[500],
-                    padding: 7,
+                    padding: 5,
                     borderRadius: 10,
                   }
                 : {}
@@ -151,7 +132,7 @@ export const Input = React.forwardRef<TextInput, NInputProps>((props, ref) => {
                 iconLeft.color
                   ? iconLeft.color
                   : isFocussed
-                  ? colors.primary[500]
+                  ? colors.primary[600]
                   : '#8894A7'
               }
             />
@@ -161,8 +142,10 @@ export const Input = React.forwardRef<TextInput, NInputProps>((props, ref) => {
         <STextInput
           testID="STextInput"
           ref={ref}
-          placeholderTextColor={'#8f8f8f'}
-          className={`ml-1 mt-0 ${marginVertical} flex-1 rounded-md px-2 text-[16px] ${textDirection}`}
+          placeholderTextColor={colors.textprimary[50]}
+          className={`ml-1 mt-0 ${marginVertical} ${
+            error ? 'text-danger-600' : 'text-textprimary-100'
+          } flex-1 rounded-md px-2 text-[16px] ${textDirection}`}
           onBlur={onBlur}
           onFocus={onFocus}
           {...inputProps}
@@ -173,7 +156,7 @@ export const Input = React.forwardRef<TextInput, NInputProps>((props, ref) => {
         {labelButtonRight && (
           <TouchableOpacity
             onPress={onPressButtonRight}
-            className={`flex-row items-center justify-center rounded-lg bg-primary-700  p-2
+            className={`bg-primary-700 flex-row items-center justify-center rounded-lg  p-2
          `}
           >
             {false ? (
@@ -195,11 +178,11 @@ export const Input = React.forwardRef<TextInput, NInputProps>((props, ref) => {
                 iconRight.color
                   ? iconRight.color
                   : isFocussed
-                  ? colors.primary[500]
+                  ? colors.primary[600]
                   : '#8894A7'
               }
               variant="Bulk"
-              size={25}
+              size={20}
             />
           </TouchableOpacity>
         )}

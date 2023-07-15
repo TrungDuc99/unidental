@@ -6,8 +6,8 @@ import type { AuthenticateReq, AuthenticateResponse } from './types';
 const accountApi = {
   login: ({ email, password }: AuthenticateReq): Promise<any> => {
     return axiosClient.post('/login', {
-      Username: email,
-      Password: password,
+      email: email,
+      password: password,
     });
   },
 };
@@ -18,6 +18,7 @@ const authenticateService = {
   ): Promise<AuthenticateResponse | undefined> => {
     try {
       const res = await accountApi.login(data);
+
       if (res) {
         return res;
       }

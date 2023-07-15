@@ -1,9 +1,12 @@
 import { Env } from '@env';
 import { useColorScheme } from 'nativewind';
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 
+import type { User } from '@/api/user/types';
 import { useAuth } from '@/core';
 import { translate } from '@/core';
+import { selectUserInfo } from '@/feature/user/userSlice';
 import { ScrollView, Text, View } from '@/ui';
 import { Github, Rate, Share, Support, Website } from '@/ui/icons';
 import colors from '@/ui/theme/colors';
@@ -18,6 +21,10 @@ export const Settings = () => {
   const { colorScheme } = useColorScheme();
   const iconColor =
     colorScheme === 'dark' ? colors.neutral[400] : colors.neutral[500];
+  const userInfo: User = useSelector(selectUserInfo);
+  console.log('====================================');
+  console.log({ userInfo });
+  console.log('====================================');
   return (
     <ScrollView>
       <View className="flex-1 px-4 pt-16 ">

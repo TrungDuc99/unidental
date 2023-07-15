@@ -16,6 +16,7 @@ module.exports = {
     950: '#121212',
   },
   textprimary: {
+    50: '#BCC3CC',
     100: '#112950',
   },
   neutral: {
@@ -36,6 +37,9 @@ module.exports = {
     300: '#0065FF',
     400: '#003CBF',
     500: '#0F3D91',
+    600: '#1265FF',
+    700: '#063CBF',
+    800: '#D3EFFF',
   },
   gradient: {
     100: ['#03EFFF', '#0065FF'],
