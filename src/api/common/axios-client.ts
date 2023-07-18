@@ -8,7 +8,7 @@ import { signOut } from '@/core';
 import { getToken } from '@/core/auth/utils';
 import { showErrorMessage } from '@/ui';
 
-console.log('url:', Env.API_URL);
+console.log(Env.API_URL);
 const axiosClient = axios.create({
   baseURL: `${Env.API_URL}/api`,
   headers: {

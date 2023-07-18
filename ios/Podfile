@@ -37,7 +37,7 @@ elsif podfile_properties.key?('ios.flipper') then
     flipper_config = FlipperConfiguration.enabled(["Debug", "Release"], { 'Flipper' => podfile_properties['ios.flipper'] })
   end
 end
-
+use_modular_headers!
 target 'unidental' do
   use_expo_modules!
   config = use_native_modules!
@@ -58,6 +58,8 @@ target 'unidental' do
     :flipper_configuration => flipper_config
   )
   pod 'react-native-fbsdk-next', :path => '../node_modules/react-native-fbsdk-next'
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKLoginKit'
   post_install do |installer|
     react_native_post_install(
       installer,

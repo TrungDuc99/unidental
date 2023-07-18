@@ -1,9 +1,12 @@
 <resources>
   <string name="app_name">unidental</string>
+  <string name="appID">2280767809345725903</string>
   <string name="expo_splash_screen_resize_mode" translatable="false">cover</string>
   <string name="expo_splash_screen_status_bar_translucent" translatable="false">false</string>
   <string name="expo_system_ui_user_interface_style" translatable="false">automatic</string>
   <string name="facebook_app_id">598630025710259</string>
   <string name="fb_login_protocol_scheme">fb598630025710259</string>
   <string name="facebook_client_token">4e0f69fde9116add4f723e114dfdf104</string>
+  <string name="server_client_id">37937252022-31gj0igc5dceog50u4b3oafh12in2t59.apps.googleusercontent.com</string>
+  
 </resources>

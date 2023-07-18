@@ -7,7 +7,8 @@ import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
-
+import com.zing.zalo.zalosdk.oauth.ZaloSDK;
+import android.content.Intent;
 import expo.modules.ReactActivityDelegateWrapper;
 
 public class MainActivity extends ReactActivity {
@@ -45,7 +46,12 @@ public class MainActivity extends ReactActivity {
         DefaultNewArchitectureEntryPoint.getConcurrentReactEnabled() // concurrentRootEnabled
         ));
   }
-
+  
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+      super.onActivityResult(requestCode, resultCode, data);
+      ZaloSDK.Instance.onActivityResult(this, requestCode, resultCode, data);
+    }
   /**
    * Align the back button behavior with Android S
    * where moving root activities to background instead of finishing activities.
