@@ -1,3 +1,4 @@
+export * from './add-video-call';
 export * from './arrow-right';
 export * from './facebook';
 export * from './feed';
@@ -11,5 +12,6 @@ export * from './settings';
 export * from './share';
 export * from './style';
 export * from './support';
+export * from './video-call';
 export * from './website';
 export * from './zalo';

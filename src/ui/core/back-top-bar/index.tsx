@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { ArrowLeft } from 'iconsax-react-native';
+import { ArrowLeft, ArrowLeft2 } from 'iconsax-react-native';
 import React from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import type { ViewProps } from 'react-native-ui-lib';
@@ -35,7 +35,7 @@ const BackTopBar = ({ title, bgColor, ...rest }: BackTopBarProps) => {
   });
   const IconBack =
     Platform.select({
-      ios: ArrowLeft,
+      ios: ArrowLeft2,
       android: ArrowLeft,
     }) || ArrowLeft;
   // const { navigate } = useNavigation();
@@ -50,7 +50,7 @@ const BackTopBar = ({ title, bgColor, ...rest }: BackTopBarProps) => {
       {/* <StatusBar translucent backgroundColor={Colors.primaryColor} barStyle="default" /> */}
       <View {...rest} row centerV style={{ justifyContent: 'space-evenly' }}>
         <TouchableOpacity onPress={handlePressBack}>
-          <IconBack color={Colors.blackColor} size={ScaleSize(32)} />
+          <IconBack color={Colors.blackColor} size={ScaleSize(30)} />
         </TouchableOpacity>
         <Text
           variant="md"

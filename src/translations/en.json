@@ -4,6 +4,11 @@
   },
   "settings": {
     "about": "About",
+    "notification": "Notification",
+    "Promothinal_notification": "Promothinal notification",
+    "my_account": "My Account",
+    "manage_profile": "Manage Profile",
+    "payment_method": "Payment Method",
     "app_name": "App Name",
     "arabic": "Arabic",
     "english": "English",

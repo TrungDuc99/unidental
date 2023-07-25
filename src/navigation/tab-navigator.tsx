@@ -1,27 +1,35 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {
+  Calendar,
+  Home2,
+  Message,
+  Profile,
+  ScanBarcode,
+} from 'iconsax-react-native';
+import Lottie from 'lottie-react-native';
 import { useColorScheme } from 'nativewind';
 import type { ComponentType } from 'react';
 import * as React from 'react';
 import type { SvgProps } from 'react-native-svg';
 
-import { Settings, Style } from '@/screens';
-import {
-  colors,
-  Feed as FeedIcon,
-  Home as StyleIcon,
-  Settings as SettingsIcon,
-} from '@/ui';
+import { ScaleSize } from '@/configs';
+import { Account } from '@/screens';
+import { QrCode } from '@/screens/qr-code';
+import { colors } from '@/ui';
 
-import { FeedNavigator } from './feed-navigator';
+import { BookingNavigator } from './booking-navigator';
+import { ChatsNavigator } from './chats-navigator';
+import { HomeNavigator } from './home-navigator';
 
 type TabParamList = {
-  Style: undefined;
-  FeedNavigator: undefined;
-  Settings: undefined;
+  Chat: undefined;
+  HomeNavigator: undefined;
+  QrCode: undefined;
+  Booking: undefined;
+  Account: undefined;
 };
-
 type TabType = {
   name: keyof TabParamList;
   component: ComponentType<any>;
@@ -35,9 +43,41 @@ type TabIconsType = {
 const Tab = createBottomTabNavigator<TabParamList>();
 
 const tabsIcons: TabIconsType = {
-  Style: (props: SvgProps) => <StyleIcon {...props} />,
-  FeedNavigator: (props: SvgProps) => <FeedIcon {...props} />,
-  Settings: (props: SvgProps) => <SettingsIcon {...props} />,
+  Account: (props: any) => {
+    return (
+      // <View className={`${props.focused && 'rounded-full bg-primary-800 p-2'}`}>
+      <Profile {...props} variant={props.focused ? 'Bulk' : 'Linear'} />
+      // </View>
+    );
+  },
+
+  HomeNavigator: (props: any) => {
+    if (props.focused) {
+      return (
+        <Lottie
+          style={{ height: ScaleSize(28) }}
+          source={require('@/assets/animation/home-border.json')}
+          autoPlay
+          loop
+        />
+      );
+    } else {
+      return <Home2 {...props} />;
+    }
+  },
+  Chat: (props: any) => {
+    return <Message {...props} variant={props.focused ? 'Bulk' : 'Linear'} />;
+  },
+
+  Booking: (props: any) => {
+    return <Calendar {...props} variant={props.focused ? 'Bulk' : 'Linear'} />;
+  },
+
+  QrCode: (props: any) => {
+    return (
+      <ScanBarcode {...props} variant={props.focused ? 'Bulk' : 'Linear'} />
+    );
+  },
 };
 
 export type TabList<T extends keyof TabParamList> = {
@@ -47,29 +87,43 @@ export type TabList<T extends keyof TabParamList> = {
 
 const tabs: TabType[] = [
   {
-    name: 'Style',
-    component: Style,
-    label: 'Style',
+    name: 'HomeNavigator',
+    component: HomeNavigator,
+    label: 'Home',
+  },
+
+  {
+    name: 'Chat',
+    component: ChatsNavigator,
+    label: 'Chat',
+  },
+
+  {
+    name: 'QrCode',
+    component: QrCode,
+    label: 'Qr Code',
   },
   {
-    name: 'FeedNavigator',
-    component: FeedNavigator,
-    label: 'Feed',
+    name: 'Booking',
+    component: BookingNavigator,
+    label: 'Booking',
   },
   {
-    name: 'Settings',
-    component: Settings,
-    label: 'Settings',
+    name: 'Account',
+    component: Account,
+    label: 'Account',
   },
 ];
 
 type BarIconType = {
   name: keyof TabParamList;
   color: string;
+  focused: boolean;
 };
 
 const BarIcon = ({ color, name, ...reset }: BarIconType) => {
   const Icon = tabsIcons[name];
+
   return <Icon color={color} {...reset} />;
 };
 
@@ -80,8 +134,10 @@ export const TabNavigator = () => {
       screenOptions={({ route }) => ({
         tabBarInactiveTintColor:
           colorScheme === 'dark' ? colors.charcoal[400] : colors.neutral[400],
-        // eslint-disable-next-line react/no-unstable-nested-components
-        tabBarIcon: ({ color }) => <BarIcon name={route.name} color={color} />,
+
+        tabBarIcon: ({ color, focused }) => (
+          <BarIcon name={route.name} color={color} focused={focused} />
+        ),
       })}
     >
       <Tab.Group

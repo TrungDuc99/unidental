@@ -6,7 +6,7 @@ import type { User, UserAvatar } from './types';
 
 export const userApi = {
   getInfo: (): Promise<User> => {
-    return axiosClient.get('/user/info');
+    return axiosClient.get('/me');
   },
   updateUser: (params: User): Promise<User> => {
     return axiosClient.post('/customer/info', params);

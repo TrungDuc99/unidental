@@ -1,0 +1,98 @@
+export const TIMES_MORNING = [
+  {
+    id: '1',
+    time: '08:00',
+    active: 0,
+    timeLine: 'morning',
+  },
+  {
+    id: '2',
+    time: '08:30',
+    active: 0,
+    timeLine: 'morning',
+  },
+  {
+    id: '3',
+    time: '09:00',
+    active: 2,
+    timeLine: 'morning',
+  },
+  {
+    id: '5',
+    time: '09:30',
+    active: 0,
+    timeLine: 'morning',
+  },
+  {
+    id: '6',
+    time: '10:00',
+    active: 0,
+    timeLine: 'morning',
+  },
+  {
+    id: '7',
+    time: '10:30',
+    active: 0,
+    timeLine: 'morning',
+  },
+  {
+    id: '8',
+    time: '11:00',
+    active: 0,
+    timeLine: 'morning',
+  },
+  {
+    id: '9',
+    time: '11:30',
+    active: 0,
+    timeLine: 'morning',
+  },
+  {
+    id: '10',
+    time: '13:30',
+    active: 0,
+    timeLine: 'afternoon',
+  },
+  {
+    id: '11',
+    time: '14:00',
+    active: 0,
+    timeLine: 'afternoon',
+  },
+  {
+    id: '12',
+    time: '14:30',
+    active: 0,
+    timeLine: 'afternoon',
+  },
+  {
+    id: '13',
+    time: '15:00',
+    active: 0,
+    timeLine: 'afternoon',
+  },
+  {
+    id: '14',
+    time: '15:30',
+    active: 0,
+    timeLine: 'afternoon',
+  },
+  {
+    id: '15',
+    time: '16:00',
+    active: 0,
+    timeLine: 'afternoon',
+  },
+  {
+    id: '16',
+    time: '16:30',
+    active: 0,
+    timeLine: 'afternoon',
+  },
+  {
+    id: '17',
+    time: '17:00',
+    active: 0,
+    timeLine: 'afternoon',
+  },
+];

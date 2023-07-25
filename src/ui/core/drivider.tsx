@@ -9,7 +9,7 @@ interface DividerProps {
   orientation: 'vertical' | 'horizontal';
   color?: 'dark' | 'normal' | 'bland';
   spacing?: number;
-  height?: string;
+  height?: string | number;
   width?: string | number;
 }
 

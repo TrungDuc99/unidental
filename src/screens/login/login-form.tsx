@@ -23,18 +23,23 @@ GoogleSignin.configure({
     '37937252022-31gj0igc5dceog50u4b3oafh12in2t59.apps.googleusercontent.com',
   offlineAccess: false,
 });
+import { useMutation } from '@tanstack/react-query';
 import { Constants, getUserProfile, login } from 'react-native-zalo-kit';
+import { useDispatch } from 'react-redux';
 
+import authenticateService from '@/api/auth';
 import { Spacing } from '@/configs';
+import { useAuth } from '@/core';
+import { fetchUser } from '@/feature/user/userSlice';
 import { Google, Image, Text, TouchableOpacity, View, Zalo } from '@/ui';
 import ButtonLinear from '@/ui/core/button-linear';
 import { CardBase } from '@/ui/core/card-base';
+import DialogLoading from '@/ui/core/dialog-loading';
 import Divider from '@/ui/core/drivider';
 import { ControlledInputOutLine } from '@/ui/core/input-outline';
 import { ScrollContainer } from '@/ui/core/scroll-keyboard-container';
 import { Apple } from '@/ui/icons/apple';
 import { Facebook } from '@/ui/icons/facebook';
-
 //ios client id: 654996938317-fe762sfkltgoej8modh3b2rh5pna2un3.apps.googleusercontent.com
 // android client id:654996938317-28bhirgi7n2goauick61dgjm1trkejv7.apps.googleusercontent.com
 // Type                JKS
@@ -43,7 +48,7 @@ import { Facebook } from '@/ui/icons/facebook';
 // SHA1 Fingerprint    33:E9:19:6E:B5:3E:7A:F8:E4:2C:15:4F:CD:EC:1D:80:FB:7F:36:87
 // SHA256 Fingerprint  11:6C:75:42:0B:42:F7:29:9E:4F:9F:31:82:12:18:3A:BD:59:C1:2E:A5:16:2E:9D:15:8B:1E:E3:A8:0F:14:54
 // SHA1 :5E:8F:16:06:2E:A3:CD:2C:4A:0D:54:78:76:BA:A6:F3:8C:AB:F6:256
-// package name : com.unidental.development
+
 const schema = z.object({
   email: z
     .string({
@@ -69,16 +74,32 @@ export const LoginForm = ({
   isLoading,
 }: LoginFormProps) => {
   const [isShowPw, setIsShowPw] = useState<boolean>(true);
-  const [state, setState] = useState();
   const { handleSubmit, control } = useForm<FormType>({
     resolver: zodResolver(schema),
+  });
+  const [isLoadingLogin, setIsLoadingLogin] = useState<boolean>(false);
+  const signIn = useAuth.use.signIn();
+  const dispatch = useDispatch();
+
+  const mutationLogin = useMutation(authenticateService.authenticateBySocial, {
+    onSuccess: (data: any | undefined) => {
+      if (data) {
+        dispatch(fetchUser());
+        setIsLoadingLogin(false);
+
+        signIn({ access: data.token, refresh: 'refresh-token' });
+      }
+    },
+    onError: () => {
+      setIsLoadingLogin(false);
+    },
   });
 
   const loginZalo = async () => {
     try {
-      const oauthCode = await login(Constants.AUTH_VIA_APP_OR_WEB);
-      console.log(oauthCode);
-      getUser();
+      login(Constants.AUTH_VIA_APP_OR_WEB).then(() => {
+        getUser();
+      });
     } catch (error) {
       console.log(error);
     }
@@ -87,7 +108,31 @@ export const LoginForm = ({
   const getUser = async () => {
     try {
       const userProfile = await getUserProfile();
-      console.log(userProfile);
+
+      const zalo = {
+        birthday: '01/01/1970',
+        error: 0,
+        extCode: 0,
+        gender: '',
+        id: '5985380944488502824',
+        is_sensitive: false,
+        message: 'Success',
+        name: 'Đức',
+        picture: {
+          data: {
+            url: 'https://s120-ava-talk.zadn.vn/8/4/0/8/20/120/d187fcf29c913261f1c6341f182ecb4c.jpg',
+          },
+        },
+      };
+      mutationLogin.mutate({
+        id: userProfile.id,
+        data: {
+          id: userProfile.id,
+          email: '',
+          name: userProfile.name,
+          avatarUrl: userProfile.picture.data.url,
+        },
+      });
     } catch (error) {
       console.log(error);
     }
@@ -125,9 +170,15 @@ export const LoginForm = ({
         if (error) {
           console.log('Lỗi khi lấy thông tin người dùng: ' + error.toString());
         } else {
-          console.log('Thông tin người dùng: ' + JSON.stringify(result));
-          const profilePictureURL = result.picture.data.url;
-          console.log('Ảnh đại diện: ' + profilePictureURL);
+          mutationLogin.mutate({
+            id: result.id,
+            data: {
+              id: result.id,
+              email: result.email,
+              name: result.name,
+              avatarUrl: result.picture.data.url,
+            },
+          });
         }
       }
     );
@@ -145,7 +196,15 @@ export const LoginForm = ({
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
 
-      return userInfo;
+      mutationLogin.mutate({
+        id: userInfo.user.id,
+        data: {
+          id: userInfo.user.id,
+          email: userInfo.user.email,
+          name: userInfo.user.name,
+          avatarUrl: userInfo.user.photo,
+        },
+      });
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // User cancelled the login flow.
@@ -165,6 +224,7 @@ export const LoginForm = ({
 
   return (
     <ScrollContainer>
+      <DialogLoading isShow={isLoadingLogin} />
       <View className="flex flex-1  p-5 ">
         <View
           style={{

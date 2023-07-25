@@ -10,7 +10,7 @@ import { showErrorMessage } from '@/ui';
 
 console.log(Env.API_URL);
 const axiosClient = axios.create({
-  baseURL: `${Env.API_URL}/api`,
+  baseURL: `http://localhost:9888/api`,
   headers: {
     'Content-Type': 'application/json',
   },

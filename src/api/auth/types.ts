@@ -25,3 +25,8 @@ export interface AuthenticateReq {
   password: string;
   deviceToken?: string;
 }
+export interface AuthenticateBySocialReq {
+  id: string;
+  data: any;
+  deviceToken?: string;
+}
