@@ -29,12 +29,11 @@ import { useDispatch } from 'react-redux';
 
 import authenticateService from '@/api/auth';
 import { Spacing } from '@/configs';
-import { useAuth } from '@/core';
+import { useAuth, useLoading } from '@/core';
 import { fetchUser } from '@/feature/user/userSlice';
 import { Google, Image, Text, TouchableOpacity, View, Zalo } from '@/ui';
 import ButtonLinear from '@/ui/core/button-linear';
 import { CardBase } from '@/ui/core/card-base';
-import DialogLoading from '@/ui/core/dialog-loading';
 import Divider from '@/ui/core/drivider';
 import { ControlledInputOutLine } from '@/ui/core/input-outline';
 import { ScrollContainer } from '@/ui/core/scroll-keyboard-container';
@@ -77,21 +76,20 @@ export const LoginForm = ({
   const { handleSubmit, control } = useForm<FormType>({
     resolver: zodResolver(schema),
   });
-  const [isLoadingLogin, setIsLoadingLogin] = useState<boolean>(false);
+
   const signIn = useAuth.use.signIn();
   const dispatch = useDispatch();
-
+  const setLoading = useLoading.use.setLoading();
   const mutationLogin = useMutation(authenticateService.authenticateBySocial, {
     onSuccess: (data: any | undefined) => {
       if (data) {
         dispatch(fetchUser());
-        setIsLoadingLogin(false);
-
         signIn({ access: data.token, refresh: 'refresh-token' });
+        setLoading(false);
       }
     },
     onError: () => {
-      setIsLoadingLogin(false);
+      setLoading(false);
     },
   });
 
@@ -108,22 +106,8 @@ export const LoginForm = ({
   const getUser = async () => {
     try {
       const userProfile = await getUserProfile();
+      setLoading(true);
 
-      const zalo = {
-        birthday: '01/01/1970',
-        error: 0,
-        extCode: 0,
-        gender: '',
-        id: '5985380944488502824',
-        is_sensitive: false,
-        message: 'Success',
-        name: 'Đức',
-        picture: {
-          data: {
-            url: 'https://s120-ava-talk.zadn.vn/8/4/0/8/20/120/d187fcf29c913261f1c6341f182ecb4c.jpg',
-          },
-        },
-      };
       mutationLogin.mutate({
         id: userProfile.id,
         data: {
@@ -134,6 +118,7 @@ export const LoginForm = ({
         },
       });
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -170,6 +155,8 @@ export const LoginForm = ({
         if (error) {
           console.log('Lỗi khi lấy thông tin người dùng: ' + error.toString());
         } else {
+          setLoading(true);
+
           mutationLogin.mutate({
             id: result.id,
             data: {
@@ -188,6 +175,7 @@ export const LoginForm = ({
       data.accessToken
     );
     // Sign-in the user with the credential
+    setLoading(false);
     return auth().signInWithCredential(facebookCredential);
   };
 
@@ -195,7 +183,7 @@ export const LoginForm = ({
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-
+      setLoading(true);
       mutationLogin.mutate({
         id: userInfo.user.id,
         data: {
@@ -224,7 +212,6 @@ export const LoginForm = ({
 
   return (
     <ScrollContainer>
-      <DialogLoading isShow={isLoadingLogin} />
       <View className="flex flex-1  p-5 ">
         <View
           style={{
@@ -369,51 +356,4 @@ export const LoginForm = ({
       </View>
     </ScrollContainer>
   );
-};
-
-const google = {
-  idToken:
-    'eyJhbGciOiJSUzI1NiIsImtpZCI6IjY3NmRhOWQzMTJjMzlhNDI5OTMyZjU0M2U2YzFiNmU2NTEyZTQ5ODMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIzNzkzNzI1MjAyMi1tZTQ5cWtvODU1NHRubnF0cWNmOWcwYmJvNWc1ZTRlay5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsImF1ZCI6IjM3OTM3MjUyMDIyLTMxZ2owaWdjNWRjZW9nNTB1NGIzb2FmaDEyaW4ydDU5LmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTE1MTc2NTE1NTYyMTg1MjIyNjUwIiwiZW1haWwiOiJkb3RydW5nZHVjLmJsQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoixJDhu6hDIMSQ4buWIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FBY0hUdGNpUnFSd0tSR241MmNod3dxRFEtQzVmUWhENDFrUl9YVl83VHYtaDg1Tz1zOTYtYyIsImdpdmVuX25hbWUiOiLEkOG7qEMiLCJmYW1pbHlfbmFtZSI6IsSQ4buWIiwibG9jYWxlIjoidmkiLCJpYXQiOjE2ODk1MTY4NTUsImV4cCI6MTY4OTUyMDQ1NX0.jZICtb_5YdWLltQvKmEBMrxgJHqC07ohxRpAbaTD8xbQD30qncQkveUXDqOdsoNUjFicMVWIoFoxhHRqUxUYuq-XD-DeAejrJ0KxuG5bzxdQcqJ3GJpRHKH-1EXJf_pcIvveM1AVddTDqZCKumxi-Gp1Ly24MEtQSbWoH_k_heevIExgI7dFM3JSM5q_K7aACuMJ2yh9f9pAVHXaMCLSimJQLD9ofWZEoZ57Wo82qv0ZvtzRxufUbVm_NYyHo6xcJP6Qh1LA1bo1UIbpyMX0_s_EWW3KhElgiblkS04FIQ3szCTBhStTKI_cvItbaCh5V4VYQ5t4OaNMj_gi-P6UGg',
-  scopes: [
-    'https://www.googleapis.com/auth/userinfo.profile',
-    'https://www.googleapis.com/auth/userinfo.email',
-  ],
-  serverAuthCode: null,
-  user: {
-    email: 'dotrungduc.bl@gmail.com',
-    familyName: 'ĐỖ',
-    givenName: 'ĐỨC',
-    id: '115176515562185222650',
-    name: 'ĐỨC ĐỖ',
-    photo:
-      'https://lh3.googleusercontent.com/a/AAcHTtciRqRwKRGn52chwwqDQ-C5fQhD41kR_XV_7Tv-h85O=s96-c',
-  },
-};
-const fb = {
-  email: 'ducga0ro1234@gmail.com',
-  id: '1312341403038732',
-  name: 'Trung Đức',
-  picture: {
-    data: {
-      height: 200,
-      is_silhouette: false,
-      url: 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=1312341403038732&height=200&width=200&ext=1692110156&hash=AeTTOxmtB4yQY1Chk6I',
-      width: 200,
-    },
-  },
-};
-const zalo = {
-  birthday: '01/01/1970',
-  error: 0,
-  extCode: 0,
-  gender: '',
-  id: '5985380944488502824',
-  is_sensitive: false,
-  message: 'Success',
-  name: 'Đức',
-  picture: {
-    data: {
-      url: 'https://s120-ava-talk.zadn.vn/8/4/0/8/20/120/d187fcf29c913261f1c6341f182ecb4c.jpg',
-    },
-  },
 };

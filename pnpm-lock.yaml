@@ -152,6 +152,9 @@ dependencies:
   react-native-ui-lib:
     specifier: ^7.5.2
     version: 7.5.2(react-native-gesture-handler@2.9.0)(react-native-reanimated@2.14.4)(react-native@0.71.8)(react@18.2.0)
+  react-native-vision-camera:
+    specifier: ^2.15.4
+    version: 2.15.4(react-native@0.71.8)(react@18.2.0)
   react-native-web:
     specifier: ~0.18.7
     version: 0.18.10(react-dom@18.2.0)(react@18.2.0)
@@ -11568,6 +11571,16 @@ packages:
       tinycolor2: 1.6.0
       url-parse: 1.5.10
       wix-react-native-text-size: 1.0.8(react-native@0.71.8)
+    dev: false
+
+  /react-native-vision-camera@2.15.4(react-native@0.71.8)(react@18.2.0):
+    resolution: {integrity: sha512-SJXSWH1pu4V3Kj4UuX/vSgOxc9d5wb5+nHqBHd+5iUtVyVLEp0F6Jbbaha7tDoU+kUBwonhlwr2o8oV6NZ7Ibg==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+    dependencies:
+      react: 18.2.0
+      react-native: 0.71.8(@babel/core@7.21.0)(@babel/preset-env@7.20.2)(react@18.2.0)
     dev: false
 
   /react-native-web@0.18.10(react-dom@18.2.0)(react@18.2.0):

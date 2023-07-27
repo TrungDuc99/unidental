@@ -10,7 +10,6 @@ export const Booking = () => {
   return (
     <View>
       <BackTopBar title="Đặt lịch" />
-
       <ScrollView>
         <View className="flex-1 ">
           <DatePickerList />

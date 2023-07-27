@@ -20,16 +20,14 @@ const DialogLoading = ({ isShow = false }: DialogP) => {
         <View
           centerV
           centerH
-          padding-10
-          width={100}
           backgroundColor="#fff"
           style={{
             borderRadius: 5,
           }}
         >
           <Lottie
-            style={{ height: ScaleSize(60) }}
-            source={require('@/assets/animation//loading-circle.json')}
+            style={{ height: ScaleSize(80) }}
+            source={require('@/assets/animation/loading.json')}
             autoPlay
             loop
           />
