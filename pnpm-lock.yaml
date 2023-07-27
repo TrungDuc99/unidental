@@ -131,6 +131,9 @@ dependencies:
   react-native-mmkv:
     specifier: 2.6.3
     version: 2.6.3(react-native@0.71.8)(react@18.2.0)
+  react-native-permissions:
+    specifier: ^3.8.4
+    version: 3.8.4(react-native@0.71.8)(react@18.2.0)
   react-native-reanimated:
     specifier: ~2.14.4
     version: 2.14.4(@babel/core@7.21.0)(react-native@0.71.8)(react@18.2.0)
@@ -292,6 +295,9 @@ devDependencies:
   np:
     specifier: ^7.6.3
     version: 7.6.3
+  pod-install:
+    specifier: 0.1.38
+    version: 0.1.38
   prettier:
     specifier: ^2.8.4
     version: 2.8.4
@@ -10918,7 +10924,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       find-up: 5.0.0
-    dev: true
 
   /pkg-up@3.1.0:
     resolution: {integrity: sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==}
@@ -10959,6 +10964,11 @@ packages:
     resolution: {integrity: sha512-TRzzuFRRmEoSW/p1KVAmiOgPco2Irlah+bGFCeNfJXxxYGwSw7YwAOAcd7X28K/m5bjBWKsC29KyoMfHbypayg==}
     engines: {node: '>=12.13.0'}
     dev: false
+
+  /pod-install@0.1.38:
+    resolution: {integrity: sha512-NeDWGigjJRriOIKBOvpW2/tK2tYLfyUT7ia6C6L+oarCAhBNP+IGODWdU+GEAqvfsseqOApcFclpXAJTL0UPzA==}
+    hasBin: true
+    dev: true
 
   /posix-character-classes@0.1.1:
     resolution: {integrity: sha512-xTgYBc3fuo7Yt7JbiuFxSYGToMoz8fLoE6TC9Wx1P/u+LfeThMOAqmuyECnlBaaJb+u1m9hHiXUEtwW4OzfUJg==}
@@ -11436,6 +11446,22 @@ packages:
       react: '*'
       react-native: '>=0.71.0'
     dependencies:
+      react: 18.2.0
+      react-native: 0.71.8(@babel/core@7.21.0)(@babel/preset-env@7.20.2)(react@18.2.0)
+    dev: false
+
+  /react-native-permissions@3.8.4(react-native@0.71.8)(react@18.2.0):
+    resolution: {integrity: sha512-tJq+5eNqu8Y1PpmuSVMjQtW8E7YJbQ0LSbZ1o9KjgF7etgYmBSZeCR138x715vyZUAtwuecV+ybEM9z8dDs76Q==}
+    peerDependencies:
+      react: '>=16.13.1'
+      react-native: '>=0.63.3'
+      react-native-windows: '>=0.62.0'
+    peerDependenciesMeta:
+      react-native-windows:
+        optional: true
+    dependencies:
+      picocolors: 1.0.0
+      pkg-dir: 5.0.0
       react: 18.2.0
       react-native: 0.71.8(@babel/core@7.21.0)(@babel/preset-env@7.20.2)(react@18.2.0)
     dev: false

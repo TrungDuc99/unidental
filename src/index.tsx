@@ -1,9 +1,9 @@
-/* eslint-disable max-lines-per-function */
-
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import * as SplashScreen from 'expo-splash-screen';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Platform } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
+import { PERMISSIONS, requestMultiple } from 'react-native-permissions';
 import Toast from 'react-native-toast-message';
 import { Provider } from 'react-redux';
 
@@ -18,65 +18,46 @@ import DialogLoading from './ui/core/dialog-loading';
 hydrateAuth();
 loadSelectedTheme();
 SplashScreen.preventAutoHideAsync();
-
+// App-Icon-20x20@1x,
+// App-Icon-20x20@2x,
+// App-Icon-20x20@3x,
+// App-Icon-29x29@1x,
+// App-Icon-29x29@2x,
+// App-Icon-29x29@3x,
+// App-Icon-40x40@1x,
+// App-Icon-40x40@2x,
+// App-Icon-40x40@3x,
+// App-Icon-60x60@1x,
+// App-Icon-60x60@2x,
+// App-Icon-76x76@1x,
+// App-Icon-76x76@2x,
+// App-Icon-83.5x83.5@2x
 const App = () => {
-  // const checkPermissions = async () => {
-  //   requestNotifications(['alert', 'sound']).then(({ status, settings }) => {
-  //     // …
-  //   });
-  //   requestMultiple([
-  //     Platform.OS === 'ios'
-  //       ? PERMISSIONS.IOS.CAMERA
-  //       : PERMISSIONS.ANDROID.CAMERA,
-  //   ])
-  //     .then((result) => {})
-  //     .catch((error) => {
-  //       Toast.show({
-  //         type: 'error',
-  //         text1: 'Vui lòng cấp lại quyền trong cài đặt',
-  //         text2: `Đã xảy ra lỗi ${
-  //           error.Message
-  //             ? error.Message
-  //             : error.message
-  //             ? error.message
-  //             : 'Vui lòng thử lại sau'
-  //         }`,
-  //       });
-  //     });
-  // };
-  // const getPermissions = async () => {
-  //   const cameraPermission = await Camera.getCameraPermissionStatus();
-  //   if (cameraPermission === 'denied') {
-  //     try {
-  //       const granted = await PermissionsAndroid.request(
-  //         PermissionsAndroid.PERMISSIONS.CAMERA,
-  //         {
-  //           title: 'Cool Photo App Camera Permission',
-  //           message:
-  //             'Cool Photo App needs access to your camera ' +
-  //             'so you can take awesome pictures.',
-  //           buttonNeutral: 'Ask Me Later',
-  //           buttonNegative: 'Cancel',
-  //           buttonPositive: 'OK',
-  //         }
-  //       );
-  //       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-  //         console.log('You can use the camera');
-  //       } else {
-  //         console.log('Camera permission denied');
-  //       }
-  //     } catch (err) {
-  //       console.warn(err);
-  //     }
-  //   }
-  // };
-  // useEffect(() => {
-  //   if (Platform.OS === 'android') {
-  //     checkPermissions();
-  //   } else if (Platform.OS === 'ios') {
-  //     getPermissions();
-  //   }
-  // }, []);
+  const checkPermissions = async () => {
+    requestMultiple([
+      Platform.OS === 'ios'
+        ? PERMISSIONS.IOS.CAMERA
+        : PERMISSIONS.ANDROID.CAMERA,
+    ])
+      .then((result) => {})
+      .catch((error) => {
+        Toast.show({
+          type: 'error',
+          text1: 'Vui lòng cấp lại quyền trong cài đặt',
+          text2: `Đã xảy ra lỗi ${
+            error.Message
+              ? error.Message
+              : error.message
+              ? error.message
+              : 'Vui lòng thử lại sau'
+          }`,
+        });
+      });
+  };
+
+  useEffect(() => {
+    checkPermissions();
+  }, []);
   const isLoading = useLoading.use.loading();
 
   return (
