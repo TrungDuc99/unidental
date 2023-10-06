@@ -43,15 +43,17 @@ export const buttonVariants: BVariant = {
 interface Props extends TouchableOpacityProps {
   variant?: VariantName;
   label?: string;
-
+  type?: 'primary' | 'error' | 'warning' | 'info' | 'success';
+  size?: 'small' | 'medium' | 'large';
   loading?: boolean;
 }
 
 export const Button = ({
   label,
-
   loading = false,
   variant = 'primary',
+  size = 'medium',
+  type = 'primary',
   disabled = false,
   ...props
 }: Props) => {
@@ -61,7 +63,18 @@ export const Button = ({
       className={`
     ${buttonVariants.defaults.container}
      ${buttonVariants[variant].container}
-     ${disabled ? 'opacity-50' : ''}
+     ${disabled ? 'opacity-50' : ''} ${
+        size === 'small' ? 'py-1' : size === 'large' ? 'py-3' : 'py-3'
+      } ${
+        variant === 'outline' &&
+        (type === 'success'
+          ? 'border-success-500'
+          : type === 'warning'
+          ? 'border-warning-500'
+          : type === 'error'
+          ? 'border-danger-500'
+          : 'white')
+      } 
     `}
       {...props}
     >
@@ -75,9 +88,19 @@ export const Button = ({
         />
       ) : (
         <Text
-          className={`
+          className={` 
           ${buttonVariants.defaults.label}
            ${buttonVariants[variant].label}
+           ${
+             variant === 'outline' &&
+             (type === 'success'
+               ? 'text-success-500'
+               : type === 'warning'
+               ? 'text-warning-500'
+               : type === 'error'
+               ? 'text-danger-500'
+               : 'text-primary-600')
+           }
           `}
         >
           {label}

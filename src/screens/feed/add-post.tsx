@@ -21,7 +21,6 @@ export const AddPost = () => {
   const { mutate: addPost, isLoading } = useAddPost();
 
   const onSubmit = (data: FormType) => {
-    console.log(data);
     addPost(
       { ...data, userId: 1 },
       {
@@ -41,7 +40,7 @@ export const AddPost = () => {
   };
   return (
     <View className="flex-1 p-4 ">
-      <ControlledInput name="title" label="Title" control={control} />
+      <ControlledInput name="title" label="Tasdsitle" control={control} />
       <ControlledInput
         name="body"
         label="Content"

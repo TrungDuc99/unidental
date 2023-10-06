@@ -1,24 +1,21 @@
 /* eslint-disable max-lines-per-function */
 
-import { Eye, Heart, MessageText } from 'iconsax-react-native';
+import { Eye, Heart, MessageText, More } from 'iconsax-react-native';
 import Lottie from 'lottie-react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
+import ImageView from 'react-native-image-viewing';
 
 import { ScaleSize } from '@/configs';
-import { Image, Pressable, Text, TouchableOpacity, View } from '@/ui';
+import { Close, Image, Pressable, Text, TouchableOpacity, View } from '@/ui';
 import { CardBase } from '@/ui/core/card-base';
 import Divider from '@/ui/core/drivider';
 
-type Props = any & { onPress?: () => void };
+type Props = any & { onPress?: () => void; navigate: any };
 
-export const Card = ({
-  title,
-  decription,
-  image,
-  onPress = () => {},
-}: Props) => {
+export const Card = ({ id, title, description, image, navigate }: Props) => {
   const [liked, setLiked] = React.useState<number>(0);
+  const [visible, setIsVisible] = useState(false);
   React.useEffect(() => {
     if (liked === 2) {
       const timer = setTimeout(() => {
@@ -29,25 +26,32 @@ export const Card = ({
   }, [liked]);
 
   return (
-    <CardBase onPress={onPress} className="mb-3" style={styles.postContainer}>
-      <View className="flex flex-row items-center p-3">
-        <Image
-          source={
-            'https://scontent.fsgn5-13.fna.fbcdn.net/v/t39.30808-1/327349487_708770170890387_1850358938449352036_n.png?stp=cp0_dst-png_p80x80&_nc_cat=106&ccb=1-7&_nc_sid=c6021c&_nc_ohc=xhmkifGyv-QAX-QGgGY&_nc_ht=scontent.fsgn5-13.fna&oh=00_AfCuJqpyi50VAbalZLOuZG3-5tM29yEMwSqQmcmnjYNNrw&oe=64C070D7'
-          }
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: 1000,
-          }}
-        />
-        <View className="ml-2 ">
-          <Text variant="sm" className="font-semibold">
-            Heineken 0.0
-          </Text>
-          <Text variant="xs" className="text-left  text-neutral-200">
-            27 phút
-          </Text>
+    <CardBase className="mb-3" style={styles.postContainer}>
+      <View className="flex flex-row items-center justify-between p-3">
+        <View className="flex-row">
+          <Image
+            source={
+              'https://scontent.fsgn5-13.fna.fbcdn.net/v/t39.30808-1/327349487_708770170890387_1850358938449352036_n.png?stp=cp0_dst-png_p80x80&_nc_cat=106&ccb=1-7&_nc_sid=c6021c&_nc_ohc=xhmkifGyv-QAX-QGgGY&_nc_ht=scontent.fsgn5-13.fna&oh=00_AfCuJqpyi50VAbalZLOuZG3-5tM29yEMwSqQmcmnjYNNrw&oe=64C070D7'
+            }
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 1000,
+            }}
+          />
+          <View className="ml-2 ">
+            <Text variant="sm" className="font-semibold">
+              Heineken 0.0
+            </Text>
+            <Text variant="xs" className="text-left  text-neutral-200">
+              27 phút
+            </Text>
+          </View>
+        </View>
+        <View className="flex-row items-center">
+          <More color={'#6B727C'} />
+          <View className="mx-2" />
+          <Close />
         </View>
       </View>
       <View>
@@ -56,16 +60,18 @@ export const Card = ({
             {title}
           </Text>
           <Text variant="xs" numberOfLines={3}>
-            {decription}
+            {description}
           </Text>
         </View>
       </View>
-      <Image
-        className="h-56 w-full object-cover "
-        source={{
-          uri: image,
-        }}
-      />
+      <Pressable onPress={() => setIsVisible(true)}>
+        <Image
+          className="h-56 w-full object-cover "
+          source={{
+            uri: image,
+          }}
+        />
+      </Pressable>
       <View className="flex flex-row items-center px-3 pt-2 pb-1">
         <Heart size={20} color={'red'} variant="Bold" />
         <Text variant="sm" className="f ml-1 text-[#5A626A]">
@@ -113,7 +119,14 @@ export const Card = ({
             Thích
           </Text>
         </View>
-        <Pressable className="flex flex-row items-center">
+        <Pressable
+          onPress={() => {
+            navigate('PostDetail', {
+              id: id,
+            });
+          }}
+          className="flex flex-row items-center"
+        >
           <MessageText color={'#5A626A'} />
           <Text variant="sm" className="ml-2 font-semibold text-[#5A626A]">
             Bình luận
@@ -126,6 +139,13 @@ export const Card = ({
           </Text>
         </Pressable>
       </View>
+      <ImageView
+        onLongPress={() => {}}
+        images={[{ uri: image }]}
+        imageIndex={0}
+        visible={visible}
+        onRequestClose={() => setIsVisible(false)}
+      />
     </CardBase>
   );
 };

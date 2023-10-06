@@ -1,33 +1,43 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
+import { PERMISSIONS, requestMultiple } from 'react-native-permissions';
+import Toast from 'react-native-toast-message';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 
 import { Text, View } from '@/ui';
 export const QrCode = () => {
-  // const [hasPermission, setHasPermission] = React.useState(false);
-  // const devices = useCameraDevices();
-  // const device = devices.back;
+  const [hasPermission, setHasPermission] = React.useState(false);
 
-  // const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.QR_CODE], {
-  //   checkInverted: true,
-  // });
-
-  // // Alternatively you can use the underlying function:
-  // //
-  // // const frameProcessor = useFrameProcessor((frame) => {
-  // //   'worklet';
-  // //   const detectedBarcodes = scanBarcodes(frame, [BarcodeFormat.QR_CODE], { checkInverted: true });
-  // //   runOnJS(setBarcodes)(detectedBarcodes);
-  // // }, []);
-
-  // React.useEffect(() => {
-  //   (async () => {
-  //     const status = await Camera.requestCameraPermission();
-  //     setHasPermission(status === 'authorized');
-  //   })();
-  // }, []);
   const devices = useCameraDevices();
   const device = devices.back;
+
+  React.useEffect(() => {
+    if (!hasPermission) {
+      requestMultiple([
+        Platform.OS === 'ios'
+          ? PERMISSIONS.IOS.CAMERA
+          : PERMISSIONS.ANDROID.CAMERA,
+      ])
+        .then((result) => {})
+        .catch((error) => {
+          Toast.show({
+            type: 'error',
+            text1: 'Vui lòng cấp lại quyền trong cài đặt',
+            text2: `Đã xảy ra lỗi ${
+              error.Message
+                ? error.Message
+                : error.message
+                ? error.message
+                : 'Vui lòng thử lại sau'
+            }`,
+          });
+        });
+    }
+    (async () => {
+      const status = await Camera.requestCameraPermission();
+      setHasPermission(status === 'authorized');
+    })();
+  }, []);
 
   if (device == null)
     return (

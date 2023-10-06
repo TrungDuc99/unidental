@@ -1,3 +1,5 @@
+/* eslint-disable max-lines-per-function */
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as SplashScreen from 'expo-splash-screen';
 import { Call } from 'iconsax-react-native';
@@ -9,8 +11,10 @@ import { useAuth } from '@/core';
 import { useIsFirstTime } from '@/core/hooks';
 import { fetchUser } from '@/feature/user/userSlice';
 import { Onboarding } from '@/screens';
+import CartDetail from '@/screens/cart-detail';
 import ChatRoomScreen from '@/screens/chat-room';
 import Scanned from '@/screens/scanned';
+import SearchFriends from '@/screens/search-friends';
 import { colors, Image, Text, VideoCall, View } from '@/ui';
 
 import { AuthNavigator } from './auth-navigator';
@@ -66,6 +70,21 @@ export const Root = () => {
                 }}
                 name="Scanned"
                 component={Scanned}
+              />
+              <Stack.Screen
+                options={{
+                  headerShown: false,
+                }}
+                name="SearchFriend"
+                component={SearchFriends}
+              />
+              <Stack.Screen
+                options={{
+                  presentation: 'modal',
+                  headerShown: false,
+                }}
+                name="CartDetail"
+                component={CartDetail}
               />
             </>
           )}

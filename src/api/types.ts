@@ -4,3 +4,9 @@ export interface PaginateQuery<T> {
   next: string | null;
   previous: string | null;
 }
+export interface ResponseData<T> {
+  data: T;
+  errors?: string[] | null;
+  succeeded: boolean;
+  message?: string;
+}

@@ -1,30 +1,54 @@
 import Toast from 'react-native-toast-message';
 
-import type { Point } from '../auth/types';
 import axiosClient from '../common/axios-client';
+import type { ResponseData } from '../types';
 import type { User, UserAvatar } from './types';
 
 export const userApi = {
-  getInfo: (): Promise<User> => {
+  getInfo: (): Promise<ResponseData<User>> => {
     return axiosClient.get('/me');
   },
-  updateUser: (params: User): Promise<User> => {
-    return axiosClient.post('/customer/info', params);
+  searchUser: (searchValue: string): Promise<ResponseData<User>> => {
+    return axiosClient.get(`/user/search/${searchValue}`);
   },
-  getInfoPoint: (pageNumber: number): Promise<Point> => {
-    return axiosClient.get(`/customer/points?pageNumber=${pageNumber}`);
+  updateUser: (params: User): Promise<ResponseData<User>> => {
+    return axiosClient.post('/user/', params);
+  },
+  getInfoPoint: (pageNumber: number): Promise<ResponseData<User>> => {
+    return axiosClient.get(`/user/points?pageNumber=${pageNumber}`);
   },
   getAvatar: (): Promise<UserAvatar> => {
-    return axiosClient.get(`/customer/avatar`);
+    return axiosClient.get(`/user/avatar`);
   },
 };
 
 const userService = {
-  getInfo: async (): Promise<User | undefined> => {
+  getInfo: async (): Promise<ResponseData<User> | undefined> => {
     try {
       const res = await userApi.getInfo();
       if (res) {
         return res;
+      }
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Thất bại',
+        text2: `Đã xảy ra lỗi, không thể lấy thông tin người dùng ${
+          error ? error : 'vui lòng thử lại sau'
+        } `,
+      });
+
+      throw error;
+    }
+  },
+  searchUser: async (
+    searchValue: string
+  ): Promise<ResponseData<User> | undefined> => {
+    try {
+      const res = await userApi.searchUser(searchValue);
+
+      if (res.succeeded) {
+        return res.data;
       }
     } catch (error) {
       Toast.show({

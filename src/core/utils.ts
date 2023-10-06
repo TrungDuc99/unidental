@@ -1,5 +1,7 @@
 import moment from 'moment';
-import { Linking } from 'react-native';
+import { Linking, Platform } from 'react-native';
+import { PERMISSIONS, requestMultiple } from 'react-native-permissions';
+import Toast from 'react-native-toast-message';
 import type { StoreApi, UseBoundStore } from 'zustand';
 export function openLinkInBrowser(url: string) {
   Linking.canOpenURL(url).then((canOpen) => canOpen && Linking.openURL(url));
@@ -37,3 +39,23 @@ export function getDaysInMonth(month: any, year: any, dateCurrent) {
   }
   return days;
 }
+export const checkPermissionsCamera = async () => {
+  requestMultiple([
+    Platform.OS === 'ios' ? PERMISSIONS.IOS.CAMERA : PERMISSIONS.ANDROID.CAMERA,
+  ])
+    .then((result) => {})
+    .catch((error) => {
+      Toast.show({
+        type: 'error',
+        text1: 'Vui lòng cấp lại quyền trong cài đặt',
+        text2: `Đã xảy ra lỗi ${
+          error.Message
+            ? error.Message
+            : error.message
+            ? error.message
+            : 'Vui lòng thử lại sau'
+        }`,
+      });
+    });
+};
+export const generateID = () => Math.random().toString(36).substring(2, 10);

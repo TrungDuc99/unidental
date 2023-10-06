@@ -16,11 +16,16 @@ import { colors } from '@/ui';
 //import Feather from 'react-native-vector-icons/Feather';
 // import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 // import Ionicons from 'react-native-vector-icons/Ionicons';
-
-const MessageInput = () => {
+type PropsMessage = {
+  onSendMessage: (message: string) => void;
+  onChangeTextValue: (text: string) => void;
+};
+const MessageInput = ({ onSendMessage, onChangeTextValue }: PropsMessage) => {
   const [message, setMessage] = useState('');
+  const [isOpen, setIsOpen] = React.useState<boolean>(true);
+
   const sendMessage = () => {
-    console.warn('sending: ', message);
+    onSendMessage(message);
     setMessage('');
   };
   const onPlusClicked = () => {
@@ -44,7 +49,10 @@ const MessageInput = () => {
         <Gallery size={24} color={'#595959'} style={styles.icon} />
         <TextInput
           value={message}
-          onChangeText={setMessage}
+          onChangeText={(text) => {
+            onChangeTextValue(text);
+            setMessage(text);
+          }}
           style={styles.input}
           placeholder="Signal message..."
         />
@@ -58,6 +66,11 @@ const MessageInput = () => {
           <Add size={33} color={'white'} />
         )}
       </Pressable>
+      {/* <EmojiPicker
+        onEmojiSelected={(emoji) => {}}
+        open={true}
+        onClose={() => setIsOpen(false)}
+      /> */}
     </KeyboardAvoidingView>
   );
 };

@@ -3,9 +3,10 @@ import { View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { BaseToast, ErrorToast } from 'react-native-toast-message';
 
+import { Text } from './core';
+
 // for onError react queries and mutations
 export const showError = (error: AxiosError) => {
-  console.log(JSON.stringify(error?.response?.data));
   const description = extractError(error?.response?.data).trimEnd();
 
   showMessage({

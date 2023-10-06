@@ -11,10 +11,12 @@ import { useSelector } from 'react-redux';
 import { ScaleSize, Spacing } from '@/configs';
 import { selectProductQuantity } from '@/feature/cart/cartSlice';
 import { Home } from '@/screens/home';
+import PostDetail from '@/screens/post-detail';
 import { colors, Image, Text, TouchableOpacity, View } from '@/ui';
 
 export type HomeStackParamList = {
   Home: undefined;
+  PostDetail: { id: number };
 };
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
@@ -153,6 +155,14 @@ export const HomeNavigator = () => {
           }}
           name="Home"
           component={Home}
+        />
+
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="PostDetail"
+          component={PostDetail}
         />
       </Stack.Group>
     </Stack.Navigator>

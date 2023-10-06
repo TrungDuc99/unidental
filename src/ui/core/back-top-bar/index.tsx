@@ -5,7 +5,7 @@ import { Platform, StyleSheet } from 'react-native';
 import type { ViewProps } from 'react-native-ui-lib';
 import { View } from 'react-native-ui-lib';
 
-import { Colors, ScaleSize, Spacing } from '@/configs';
+import { Colors, ScaleSize } from '@/configs';
 
 import { Text } from '../text';
 import { TouchableOpacity } from '../touchable-opacity';
@@ -19,18 +19,21 @@ interface BackTopBarProps extends ViewProps {
   };
   pressBack?: () => void;
 }
-const BackTopBar = ({ title, bgColor, ...rest }: BackTopBarProps) => {
+const BackTopBar = ({
+  title,
+  bgColor,
+  iconRight,
+  ...rest
+}: BackTopBarProps) => {
+  const Icon = iconRight?.icon;
   const navigation = useNavigation();
   const styles = StyleSheet.create({
     container: {
       justifyContent: 'center',
       backgroundColor: bgColor ? bgColor : '#fff',
-
-      marginLeft: Platform.OS === 'ios' ? Spacing(-2) : Spacing(-1),
     },
     title: {
       width: '80%',
-      marginLeft: -10,
     },
   });
   const IconBack =
@@ -50,7 +53,7 @@ const BackTopBar = ({ title, bgColor, ...rest }: BackTopBarProps) => {
       {/* <StatusBar translucent backgroundColor={Colors.primaryColor} barStyle="default" /> */}
       <View {...rest} row centerV style={{ justifyContent: 'space-evenly' }}>
         <TouchableOpacity onPress={handlePressBack}>
-          <IconBack color={Colors.blackColor} size={ScaleSize(30)} />
+          <IconBack color={Colors.blackColor} size={ScaleSize(20)} />
         </TouchableOpacity>
         <Text
           variant="md"
@@ -58,6 +61,15 @@ const BackTopBar = ({ title, bgColor, ...rest }: BackTopBarProps) => {
           style={styles.title}
           children={title}
         />
+        {iconRight && (
+          <TouchableOpacity
+            onPress={() => {
+              iconRight && iconRight.onPress;
+            }}
+          >
+            <Icon color={Colors.blackColor} size={ScaleSize(20)} />
+          </TouchableOpacity>
+        )}
       </View>
     </SafeAreaView>
   );

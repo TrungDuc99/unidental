@@ -1,14 +1,16 @@
+import { useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HambergerMenu } from 'iconsax-react-native';
+import { HambergerMenu, SearchNormal } from 'iconsax-react-native';
 import * as React from 'react';
 
 import { Spacing } from '@/configs';
 import Chats from '@/screens/chats';
-import { AddVideoCall, colors, Text, TouchableOpacity, View } from '@/ui';
+import { colors, Text, TouchableOpacity, View } from '@/ui';
 
 export type ChatsStackParamList = {
   Chats: undefined;
   ChatRoom: { id: string; name: string };
+  SearchFriend: undefined;
 };
 
 const Stack = createNativeStackNavigator<ChatsStackParamList>();
@@ -28,6 +30,7 @@ export const ChatsNavigator = () => {
 };
 
 const ChatsHeader = () => {
+  const { navigate } = useNavigation();
   return (
     <View
       style={{
@@ -46,8 +49,12 @@ const ChatsHeader = () => {
       <Text variant="sm" className="font-bold ">
         Đoạn chat
       </Text>
-      <TouchableOpacity onPress={() => {}}>
-        <AddVideoCall color={colors.primary[500]} />
+      <TouchableOpacity
+        onPress={() => {
+          navigate('SearchFriend');
+        }}
+      >
+        <SearchNormal color={colors.primary[500]} />
       </TouchableOpacity>
     </View>
   );

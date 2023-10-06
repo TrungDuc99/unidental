@@ -109,9 +109,12 @@ const ButtonBase = ({
           `}
         />
       ) : (
-        <View className="flex-row">
+        <View className="flex-row items-center">
           {IconLeft && (
-            <IconLeft color={iconLeft.color ? iconLeft.color : 'white'} />
+            <IconLeft
+              size={iconLeft.size}
+              color={iconLeft.color ? iconLeft.color : 'white'}
+            />
           )}
           {textLabel ? (
             textLabel
@@ -121,6 +124,7 @@ const ButtonBase = ({
                 {
                   textTransform: 'uppercase',
                   marginLeft: Spacing(2),
+                  marginRight: Spacing(2),
                   fontSize:
                     size === 'small' && Platform.OS === 'android' ? 11 : 14,
                 },
@@ -138,7 +142,10 @@ const ButtonBase = ({
           )}
 
           {IconRight && (
-            <IconRight color={iconRight.color ? iconRight.color : 'white'} />
+            <IconRight
+              size={iconRight.size}
+              color={iconRight.color ? iconRight.color : 'white'}
+            />
           )}
         </View>
       )}

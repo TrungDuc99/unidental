@@ -1,6 +1,5 @@
 import Lottie from 'lottie-react-native';
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { Dialog, View } from 'react-native-ui-lib';
 
 import { ScaleSize } from '@/configs';
@@ -14,7 +13,6 @@ const DialogLoading = ({ isShow = false }: DialogP) => {
       visible={isShow}
       onTouchOutside={() => false}
       ignoreBackgroundPress={true}
-      containerStyle={[styles.dialog]}
     >
       <View centerV centerH>
         <View
@@ -38,7 +36,3 @@ const DialogLoading = ({ isShow = false }: DialogP) => {
 };
 
 export default DialogLoading;
-
-const styles = StyleSheet.create({
-  dialog: {},
-});

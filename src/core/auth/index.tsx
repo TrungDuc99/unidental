@@ -35,7 +35,6 @@ const _useAuth = create<AuthState>((set, get) => ({
   loading: false,
   status: 'idle',
   token: null,
-
   signIn: (token) => {
     setToken(token);
     set({ status: 'signIn', token });
@@ -75,7 +74,7 @@ const _useBooking = create<BookingState>((set, get) => ({
   hydrate: () => {
     try {
       const bookingStatus = getBookingStatus();
-      console.log({ bookingStatus });
+
       if (bookingStatus !== null) {
         get().setBookingStatus(bookingStatus);
       } else {

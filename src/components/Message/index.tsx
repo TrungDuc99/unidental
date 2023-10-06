@@ -1,20 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import type { MessageI } from '@/types/chat/Message';
 import { colors } from '@/ui';
 
 interface MessageProps {
-  message: MessageI;
+  message: any;
+  myID: string;
 }
 
-const myID = 'u1';
 const Message = (props: MessageProps) => {
-  const { message } = props;
+  const { message, myID } = props;
 
   const isMe = message.user.id === myID ? true : false;
-
-  console.log(isMe);
 
   return (
     <View

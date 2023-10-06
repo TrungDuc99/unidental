@@ -1,21 +1,22 @@
 import { useNavigation } from '@react-navigation/native';
-import moment from 'moment';
 import * as React from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
-
-import type { ChatRoom } from '@/types/chat/ChatRoom';
 
 import styles from './styles';
 
 interface ChatRoomItemProps {
-  chatRoom: ChatRoom;
+  chatRoom: any;
   onPress?: (event: any) => void;
+  userInfo: any;
 }
 
 const ChatRoomItem = (props: ChatRoomItemProps) => {
-  const { chatRoom, onPress } = props;
+  const { chatRoom, onPress, userInfo } = props;
   const [groupName, setGroupName] = React.useState('');
-  const user = chatRoom.users[1];
+  const user = chatRoom?.users?.filter(
+    (user) => user?.id !== userInfo._id
+  )?.[0];
+
   const { navigate } = useNavigation();
 
   const onPressNavigate = (event: any) => {
@@ -24,9 +25,9 @@ const ChatRoomItem = (props: ChatRoomItemProps) => {
 
   return (
     <Pressable
-      // style={({ pressed }) => ({
-      //   opacity: pressed ? 0.5 : 1,
-      // })}
+      style={({ pressed }) => ({
+        opacity: pressed ? 0.5 : 1,
+      })}
       onPress={onPressNavigate}
     >
       <View style={styles.container}>
@@ -46,11 +47,20 @@ const ChatRoomItem = (props: ChatRoomItemProps) => {
           <View style={styles.row}>
             <Text style={styles.name}>{user.name}</Text>
             <Text style={styles.text}>
-              {moment(chatRoom.lastMessage.createdAt).format('hh:mm a')}
+              {`${
+                chatRoom.messages[chatRoom.messages.length - 1]?.createdAt ?? ''
+              }`}
             </Text>
           </View>
           <Text numberOfLines={1} style={styles.text}>
-            {chatRoom.lastMessage.content}
+            {`${
+              chatRoom.messages[chatRoom.messages.length - 1]?.user.id ===
+              userInfo._id
+                ? 'Bạn: '
+                : ''
+            } ${
+              chatRoom.messages[chatRoom.messages.length - 1]?.content ?? ''
+            }`}
           </Text>
         </View>
       </View>

@@ -11,7 +11,7 @@ const data = [
     image:
       'http://nhakhoauni.com/wp-content/uploads/2023/03/IMG_20230301_103952-1024x1024.jpg',
     title: 'CẤY IMPLANT KHÔNG ĐƠN GIẢN LÀ PHỤC HÌNH RĂNG MÀ CÒN LÀ NGHỆ THUẬT',
-    decription:
+    description:
       'CẤY IMPLANT KHÔNG ĐƠN GIẢN LÀ PHỤC HÌNH RĂNG MÀ CÒN LÀ NGHỆ THUẬT Theo đúng quy trình của 1 case cấy implant đó là : thăm khám tư vấn, chụp XQ, cấy chân trụ, gắn healing, gắn mão răng. Và để cấy được 1 trụ implant xuống sao cho ...					',
     createdAt: new Date(),
     content: '',
@@ -21,7 +21,9 @@ const data = [
     image:
       'http://nhakhoauni.com/wp-content/uploads/2023/02/IMG_20230209_102857-1024x1024.jpg',
     title: 'TRỒNG RĂNG CHỈ TỪ 6 TRIỆU TRỌN GÓI',
-    decription:
+    createBy: 'Trung Đức',
+
+    description:
       '  🎯 CẤY GHÉP IMPLANT CHỈ TỪ 6 TRIỆU TRỌN GÓI XU HƯỚNG TRỒNG RĂNG THỜI 4.0 Mất răng không chỉ xảy ra với người có tuổi, mà tỉ lệ người trẻ tuổi bị mất răng sớm ngày càng tăng cao. Do chế độ ăn uống và vệ sinh, cùng ...					',
     createdAt: new Date(),
     content: '',
@@ -31,7 +33,7 @@ const data = [
     image:
       'http://nhakhoauni.com/wp-content/uploads/2022/10/1ef5542a3a7ffd21a46e-1024x594.jpg',
     title: 'HƯỚNG DẪN CÁC KÊNH SERVICE HỖ TRỢ KHÁCH HÀNG',
-    decription:
+    description:
       'HƯỚNG DẪN CÁC KÊNH SERVICE HỖ TRỢ KHÁCH HÀNG Chào các bạn khách hàng đang sử dụng dịch vụ tại nha khoa Uni Dental. Hiện tại Zalo của nha khoa là kênh liên lạc tổng hợp bao gồm: hẹn lịch khám, giải đáp, tư vấn, thắc mắc. Trong khi Zalo ...					',
     createdAt: new Date(),
     content: '',
@@ -41,7 +43,7 @@ const data = [
     image:
       'http://nhakhoauni.com/wp-content/uploads/2022/09/b7a21baa7623b27deb32-1024x1024.jpg',
     title: 'THỜI GIAN TÁI KHÁM CÁC LOẠI MẮC CÀI',
-    decription:
+    description:
       'THỜI GIAN TÁI KHÁM CÁC LOẠI MẮC CÀI Chào các bạn. Sẽ có rất nhiều bạn có thể đang thắc mắc hoặc bức xúc việc ” Tại sao nha khoa hẹn tái khám không đúng ngày”. Vậy thời gian tái khám của mắc cài thường và mắc cài tự buộc ...					',
     createdAt: new Date(),
     content: '',
@@ -51,7 +53,7 @@ const data = [
     image:
       'http://nhakhoauni.com/wp-content/uploads/2022/08/117391983_173682697596501_1567021151330714363_n.jpg',
     title: 'SO SÁNH 3 DÒNG TRỤ PHỔ BIẾN NHẤT HIỆN NAY',
-    decription:
+    description:
       'Cũng giống như thẩm mỹ răng sứ thì trụ Implant  cũng có nhiều loại khác nhau. Chính vì vậy, hầu hết khách hàng khi đến thăm khám tại Nha khoa Uni Dental đều có chung một mối lo lắng đó là, đâu mới là loại trụ tốt nhất hiện nay ...					',
     createdAt: new Date(),
     content: '',
@@ -81,7 +83,7 @@ export const Feed = () => {
   const { navigate } = useNavigation();
 
   const renderItem = React.useCallback(
-    ({ item }: { item: any }) => <Card {...item} />,
+    ({ item }: { item: any }) => <Card {...item} navigate={navigate} />,
     []
   );
 

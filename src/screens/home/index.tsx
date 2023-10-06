@@ -1,12 +1,16 @@
+/* eslint-disable max-lines-per-function */
+
 import { useNavigation } from '@react-navigation/native';
 import { Bag2, SearchNormal } from 'iconsax-react-native';
-import React from 'react';
-import { StatusBar, StyleSheet } from 'react-native';
+import React, { useRef } from 'react';
+import { Animated, StatusBar, StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 
 import type { User } from '@/api/user/types';
+import CartPopup from '@/components/popup-cart';
 import { selectUserInfo } from '@/feature/user/userSlice';
-import { Image, ScrollView, Text, TouchableOpacity, View } from '@/ui';
+import { Image, Text, TouchableOpacity, View } from '@/ui';
 import colors from '@/ui/theme/colors';
 
 import Endows from './endows';
@@ -16,18 +20,63 @@ import MainMenu from './menu-header';
 export const Home = () => {
   const { navigate } = useNavigation();
   const userInfo: User = useSelector(selectUserInfo);
-
+  const animatedValue = useRef(new Animated.Value(0)).current;
+  const scrollViewRef = useRef<ScrollView>(null);
+  const lastOffsetY = useRef(0);
+  const scrollDirection = useRef('');
+  const backgroundViewAnimation = {
+    opacity: animatedValue.interpolate({
+      inputRange: [0, 30],
+      outputRange: [1, 0],
+      extrapolate: 'clamp',
+    }),
+  };
   return (
     <View style={styles.container}>
+      <CartPopup />
       <StatusBar
         barStyle={'light-content'}
         backgroundColor={colors.primary[500]}
         translucent
       />
-      <View style={styles.backgroundCurvedContainer} />
-      <ScrollView>
+      <Animated.View
+        style={[styles.backgroundCurvedContainer, backgroundViewAnimation]}
+      />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        ref={scrollViewRef}
+        onScroll={(e) => {
+          const offsetY = e.nativeEvent.contentOffset.y;
+          scrollDirection.current =
+            offsetY - lastOffsetY.current > 0 ? 'down' : 'up';
+          lastOffsetY.current = offsetY;
+          animatedValue.setValue(offsetY);
+        }}
+        onScrollEndDrag={(e) => {
+          const offsetY = e.nativeEvent.contentOffset.y;
+
+          if (offsetY < 150) {
+            scrollViewRef.current?.scrollTo({
+              y: scrollDirection.current === 'down' ? 100 : 0,
+              animated: true,
+            });
+          }
+        }}
+        scrollEventThrottle={16}
+      >
         <View className="flex-1  pt-16 ">
-          <View className="flex flex-row items-center justify-between px-4">
+          <Animated.View
+            style={[
+              {
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginHorizontal: 20,
+              },
+              backgroundViewAnimation,
+            ]}
+          >
             <View className="flex flex-row">
               <Image
                 source={userInfo.avatarUrl}
@@ -65,7 +114,7 @@ export const Home = () => {
                 </View>
               </View>
             </View>
-          </View>
+          </Animated.View>
           <View className="my-3" />
           <MainMenu />
           <View className="my-2" />
