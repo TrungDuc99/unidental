@@ -47,7 +47,9 @@ export const Checkout = () => {
           <ButtonBase
             borderRadius="medium"
             label="Tiếp tục"
-            onPress={open}
+            onPress={() => {
+              setFirst(true);
+            }}
             iconRight={{
               name: ArrowRight2,
               size: 17,
@@ -86,6 +88,7 @@ export const Checkout = () => {
             label="Tiếp tục"
             size="large"
             onPress={() => {
+              close();
               dispatch(
                 addToCart({
                   ProductId: '1',
@@ -99,7 +102,7 @@ export const Checkout = () => {
                   CustomProperties: 'CustomProperties',
                 })
               );
-              close();
+
               navigate('Booking');
             }}
           />
@@ -116,19 +119,43 @@ export const Checkout = () => {
         onCancel={() => setFirst(false)}
         visible={first}
         content={
-          <View className="flex justify-center">
-            <Text variant="xl" className="mb-4 text-center font-bold">
+          <View className="item-center flex w-full justify-center px-4">
+            <Text variant="xl" className="my-4 text-center font-bold">
               Xác nhận thông tin
             </Text>
-            <Text variant="sm" className="font-semibold">
-              Đỗ Trung Đức{' '}
+            <Text variant="md" className="mb-5 text-center font-semibold">
+              Đỗ Trung Đức{'\n '}
               <Text variant="sm" className="font-bold">
-                Tái khám
+                Tái khám{'\n'}
               </Text>
               <Text variant="sm" className="font-bold">
-                Lúc 11h3
+                {`lúc ${dateCheckIn?.time ?? ''} ngày ${
+                  dateCheckIn?.fullDate ?? ''
+                }`}
               </Text>
             </Text>
+            <Button
+              label="Tiếp tục"
+              size="large"
+              onPress={() => {
+                dispatch(
+                  addToCart({
+                    ProductId: '1',
+                    ProductName: 'Tái khám răng',
+                    ProductSeName: 'SeName',
+                    Quantity: 1,
+
+                    AttributeInfo: 'string',
+                    Picture: 'PictureModels',
+                    Id: 1,
+                    CustomProperties: 'CustomProperties',
+                  })
+                );
+
+                navigate('Booking');
+                setFirst(false);
+              }}
+            />
           </View>
         }
       />

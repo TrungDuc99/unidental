@@ -16,15 +16,16 @@ import type { SvgProps } from 'react-native-svg';
 
 import { ScaleSize } from '@/configs';
 import { Account } from '@/screens';
-import { QrCode } from '@/screens/qr-code';
-import { colors } from '@/ui';
+import { colors, Feed } from '@/ui';
 
 import { BookingNavigator } from './booking-navigator';
 import { ChatsNavigator } from './chats-navigator';
+import { FeedNavigator } from './feed-navigator';
 import { HomeNavigator } from './home-navigator';
 
 type TabParamList = {
   Chat: undefined;
+  Feed: undefined;
   HomeNavigator: undefined;
   QrCode: undefined;
   Booking: undefined;
@@ -50,7 +51,13 @@ const tabsIcons: TabIconsType = {
       // </View>
     );
   },
-
+  Feed: (props: any) => {
+    return (
+      // <View className={`${props.focused && 'rounded-full bg-primary-800 p-2'}`}>
+      <Feed {...props} variant={props.focused ? 'Bulk' : 'Linear'} />
+      // </View>
+    );
+  },
   HomeNavigator: (props: any) => {
     if (props.focused) {
       return (
@@ -91,23 +98,28 @@ const tabs: TabType[] = [
     component: HomeNavigator,
     label: 'Home',
   },
-
   {
-    name: 'Chat',
-    component: ChatsNavigator,
-    label: 'Chat',
-  },
-
-  {
-    name: 'QrCode',
-    component: QrCode,
-    label: 'Qr Code',
+    name: 'Feed',
+    component: FeedNavigator,
+    label: 'Feed',
   },
   {
     name: 'Booking',
     component: BookingNavigator,
     label: 'Booking',
   },
+  {
+    name: 'Chat',
+    component: ChatsNavigator,
+    label: 'Chat',
+  },
+
+  // {
+  //   name: 'QrCode',
+  //   component: QrCode,
+  //   label: 'Qr Code',
+  // },
+
   {
     name: 'Account',
     component: Account,

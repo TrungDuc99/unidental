@@ -13,7 +13,6 @@ import { FlatList } from 'react-native';
 import chatService from '@/api/chat';
 import userService from '@/api/user';
 import type { User } from '@/api/user/types';
-import SearchBar from '@/components/search-bar';
 import { selectUserInfo } from '@/feature/user/userSlice';
 import { EmptyList } from '@/ui';
 
@@ -121,12 +120,6 @@ const Chats = () => {
   );
   return (
     <View>
-      <SearchBar
-        isLoading={isLoading}
-        onSubmit={(value) => {
-          setSearchValue(value);
-        }}
-      />
       <FlatList
         data={data}
         renderItem={renderFriendItem}

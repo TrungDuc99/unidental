@@ -3,7 +3,7 @@
 import { Eye, Heart, MessageText, More } from 'iconsax-react-native';
 import Lottie from 'lottie-react-native';
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import ImageView from 'react-native-image-viewing';
 
 import { ScaleSize } from '@/configs';
@@ -100,12 +100,20 @@ export const Card = ({ id, title, description, image, navigate }: Props) => {
           >
             {liked === 2 ? (
               <View style={{}}>
-                <Lottie
-                  style={{ height: ScaleSize(60) }}
-                  source={require('@/assets/animation/heart-pressed.json')}
-                  autoPlay
-                  loop
-                />
+                {Platform.OS === 'android' ? (
+                  <Heart
+                    size="27"
+                    variant={liked === 1 ? 'Bold' : 'Outline'}
+                    color={liked === 1 ? 'red' : '#5A626A'}
+                  />
+                ) : (
+                  <Lottie
+                    style={{ height: ScaleSize(60) }}
+                    source={require('@/assets/animation/heart-pressed.json')}
+                    autoPlay
+                    loop
+                  />
+                )}
               </View>
             ) : (
               <Heart

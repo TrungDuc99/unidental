@@ -14,7 +14,6 @@ import { Image, Text, TouchableOpacity, View } from '@/ui';
 import colors from '@/ui/theme/colors';
 
 import Endows from './endows';
-import { Feed } from './feed';
 import MainMenu from './menu-header';
 
 export const Home = () => {
@@ -119,7 +118,7 @@ export const Home = () => {
           <MainMenu />
           <View className="my-2" />
           <Endows navigation={navigate} />
-          <Feed />
+          {/* <Feed /> */}
           {/* <Posts navigation={navigate} /> */}
         </View>
       </ScrollView>

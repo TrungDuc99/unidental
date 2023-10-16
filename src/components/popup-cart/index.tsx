@@ -1,7 +1,5 @@
-/* eslint-disable max-lines-per-function */
-
 import { useNavigation } from '@react-navigation/native';
-import { ShoppingBag } from 'iconsax-react-native';
+import { Warning2 } from 'iconsax-react-native';
 import * as React from 'react';
 import { Animated, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -64,21 +62,18 @@ const CartPopup = () => {
           onPress={() => {
             navigate('CartDetail');
           }}
-          className="mx-5 flex-row items-center justify-between space-x-1 rounded-lg bg-success-600 px-4 py-1"
+          className="mx-5 flex-row items-center justify-between space-x-1 rounded-lg bg-warning-500 px-4 py-1"
         >
           <View className="px-1  ">
-            <Text className="font-extrabold text-white">
-              {productQuantity} món
+            <Text variant="xs" className="text-[12px] font-medium text-white">
+              Bạn có lịch hẹn tài khám
             </Text>
-            <Text variant="xs" className=" text-white">
-              {cart.length} sản phẩm
+            <Text variant="md" className="font-semibold text-white">
+              vào lúc 11:00 ngày 12/12/2024
             </Text>
           </View>
           <View className="flex flex-row items-center">
-            <Text className="mr-2 text-center text-lg font-extrabold text-white">
-              {total} đ
-            </Text>
-            <ShoppingBag size={30} color="white" />
+            <Warning2 color="white" size={30} />
           </View>
         </TouchableOpacity>
       </Animated.View>

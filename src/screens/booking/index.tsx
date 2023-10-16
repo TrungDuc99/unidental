@@ -80,7 +80,7 @@ export const Booking = () => {
   }, []);
 
   const renderItem = ({ item }: any) => (
-    <View>
+    <View key={item.id}>
       <AppointmentItem
         onPress={(data) => {
           navigate('BookingDetail', {
