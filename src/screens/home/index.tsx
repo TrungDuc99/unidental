@@ -23,6 +23,9 @@ export const Home = () => {
   const scrollViewRef = useRef<ScrollView>(null);
   const lastOffsetY = useRef(0);
   const scrollDirection = useRef('');
+  console.log('====================================');
+  console.log(userInfo);
+  console.log('====================================');
   const backgroundViewAnimation = {
     opacity: animatedValue.interpolate({
       inputRange: [0, 30],

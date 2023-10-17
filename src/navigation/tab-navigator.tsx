@@ -4,6 +4,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
   Calendar,
   Home2,
+  MenuBoard,
   Message,
   Profile,
   ScanBarcode,
@@ -16,7 +17,7 @@ import type { SvgProps } from 'react-native-svg';
 
 import { ScaleSize } from '@/configs';
 import { Account } from '@/screens';
-import { colors, Feed } from '@/ui';
+import { colors } from '@/ui';
 
 import { BookingNavigator } from './booking-navigator';
 import { ChatsNavigator } from './chats-navigator';
@@ -54,7 +55,7 @@ const tabsIcons: TabIconsType = {
   Feed: (props: any) => {
     return (
       // <View className={`${props.focused && 'rounded-full bg-primary-800 p-2'}`}>
-      <Feed {...props} variant={props.focused ? 'Bulk' : 'Linear'} />
+      <MenuBoard {...props} variant={props.focused ? 'Bulk' : 'Linear'} />
       // </View>
     );
   },

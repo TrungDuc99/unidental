@@ -23,6 +23,7 @@ GoogleSignin.configure({
     '37937252022-31gj0igc5dceog50u4b3oafh12in2t59.apps.googleusercontent.com',
   offlineAccess: false,
 });
+import { useNavigation } from '@react-navigation/native';
 import { useMutation } from '@tanstack/react-query';
 import { Constants, getUserProfile, login } from 'react-native-zalo-kit';
 import { useDispatch } from 'react-redux';
@@ -31,7 +32,15 @@ import authenticateService from '@/api/auth';
 import { Spacing } from '@/configs';
 import { useAuth, useLoading } from '@/core';
 import { fetchUser } from '@/feature/user/userSlice';
-import { Google, Image, Text, TouchableOpacity, View, Zalo } from '@/ui';
+import {
+  Google,
+  Image,
+  Pressable,
+  Text,
+  TouchableOpacity,
+  View,
+  Zalo,
+} from '@/ui';
 import ButtonLinear from '@/ui/core/button-linear';
 import { CardBase } from '@/ui/core/card-base';
 import Divider from '@/ui/core/drivider';
@@ -76,7 +85,7 @@ export const LoginForm = ({
   const { handleSubmit, control } = useForm<FormType>({
     resolver: zodResolver(schema),
   });
-
+  const { navigate } = useNavigation();
   const signIn = useAuth.use.signIn();
   const dispatch = useDispatch();
   const setLoading = useLoading.use.setLoading();
@@ -348,9 +357,15 @@ export const LoginForm = ({
         <View className="flex-row items-center justify-center">
           <Text variant="sm" className="mx-2">
             Not register yet ?{' '}
-            <Text variant="sm" className="font-bold">
-              Create Account
-            </Text>
+            <Pressable
+              onPress={() => {
+                navigate('Register');
+              }}
+            >
+              <Text variant="sm" className="font-bold">
+                Create Account
+              </Text>
+            </Pressable>
           </Text>
         </View>
       </View>

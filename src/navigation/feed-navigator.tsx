@@ -17,7 +17,7 @@ const GoToAddPost = () => {
   const { navigate } = useNavigation();
   return (
     <Pressable onPress={() => navigate('AddPost')} className="p-2">
-      <Text className="text-primary-300">Create</Text>
+      <Text className="text-primary-300">Đăng bài</Text>
     </Pressable>
   );
 };
@@ -31,7 +31,13 @@ export const FeedNavigator = () => {
           headerRight: () => <GoToAddPost />,
         }}
       >
-        <Stack.Screen name="Feed" component={Feed} />
+        <Stack.Screen
+          name="Feed"
+          component={Feed}
+          options={{
+            title: 'tin tức Unidental ',
+          }}
+        />
         <Stack.Screen name="Post" component={Post} />
       </Stack.Group>
 

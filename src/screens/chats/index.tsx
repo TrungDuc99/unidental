@@ -71,9 +71,6 @@ const Chats = () => {
 
   useEffect(() => {
     async function fetchData() {
-      console.log('====================================');
-      console.log('asdasd');
-      console.log('====================================');
       // You can await here
       const response = await axios.post(recieveMessageRoute, {
         from: '123123',

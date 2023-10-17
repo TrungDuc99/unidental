@@ -2,23 +2,20 @@ import Toast from 'react-native-toast-message';
 
 import axiosClient from '../common/axios-client';
 import type { ResponseData } from '../types';
-import type { User, UserAvatar } from './types';
+import type { User } from './types';
 
 export const userApi = {
   getInfo: (): Promise<ResponseData<User>> => {
-    return axiosClient.get('/me');
+    return axiosClient.get('/user/info');
   },
   searchUser: (searchValue: string): Promise<ResponseData<User>> => {
     return axiosClient.get(`/user/search/${searchValue}`);
   },
   updateUser: (params: User): Promise<ResponseData<User>> => {
-    return axiosClient.post('/user/', params);
+    return axiosClient.post('/user', params);
   },
-  getInfoPoint: (pageNumber: number): Promise<ResponseData<User>> => {
-    return axiosClient.get(`/user/points?pageNumber=${pageNumber}`);
-  },
-  getAvatar: (): Promise<UserAvatar> => {
-    return axiosClient.get(`/user/avatar`);
+  createUser: (params: User): Promise<ResponseData<User>> => {
+    return axiosClient.post('/user', params);
   },
 };
 
@@ -62,7 +59,7 @@ const userService = {
       throw error;
     }
   },
-  updateUser: async (params: User): Promise<User | undefined> => {
+  updateUser: async (params: User): Promise<User> => {
     try {
       const res = await userApi.updateUser(params);
       if (res) {
@@ -80,10 +77,9 @@ const userService = {
       throw error;
     }
   },
-  getInfoPoint: async (pageNumber: number): Promise<any | undefined> => {
+  createUser: async (params: User): Promise<User | undefined> => {
     try {
-      const res = await userApi.getInfoPoint(pageNumber);
-
+      const res = await userApi.createUser(params);
       if (res) {
         return res;
       }
@@ -91,25 +87,7 @@ const userService = {
       Toast.show({
         type: 'error',
         text1: 'Thất bại',
-        text2: `Đã xảy ra lỗi, không thể lấy thông tin ${
-          error ? error : 'vui lòng thử lại sau'
-        } `,
-      });
-
-      throw error;
-    }
-  },
-  getAvatar: async (): Promise<UserAvatar | undefined> => {
-    try {
-      const res = await userApi.getAvatar();
-      if (res) {
-        return res;
-      }
-    } catch (error) {
-      Toast.show({
-        type: 'error',
-        text1: 'Thất bại',
-        text2: `Đã xảy ra lỗi, không thể lấy thông tin người dùng ${
+        text2: `Đã xảy ra lỗi, không thể cập nhật thông tin ${
           error ? error : 'vui lòng thử lại sau'
         } `,
       });

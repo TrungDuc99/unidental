@@ -1,13 +1,21 @@
 /* eslint-disable max-lines-per-function */
 
-import { Eye, Heart, MessageText, More } from 'iconsax-react-native';
+import { Heart, MessageText, More } from 'iconsax-react-native';
 import Lottie from 'lottie-react-native';
 import React, { useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import ImageView from 'react-native-image-viewing';
 
 import { ScaleSize } from '@/configs';
-import { Close, Image, Pressable, Text, TouchableOpacity, View } from '@/ui';
+import {
+  Close,
+  Image,
+  Pressable,
+  Share,
+  Text,
+  TouchableOpacity,
+  View,
+} from '@/ui';
 import { CardBase } from '@/ui/core/card-base';
 import Divider from '@/ui/core/drivider';
 
@@ -141,9 +149,9 @@ export const Card = ({ id, title, description, image, navigate }: Props) => {
           </Text>
         </Pressable>
         <Pressable className="flex flex-row items-center">
-          <Eye color={'#5A626A'} />
+          <Share color={'#5A626A'} />
           <Text variant="sm" className="ml-2 font-semibold text-[#5A626A]">
-            Xem
+            Chia sẻ
           </Text>
         </Pressable>
       </View>

@@ -116,7 +116,10 @@ const ButtonLinear = ({
         ) : (
           <View className="flex-row">
             {IconLeft && (
-              <IconLeft color={iconLeft.color ? iconLeft.color : 'white'} />
+              <IconLeft
+                variant="Bulk"
+                color={iconLeft.color ? iconLeft.color : 'white'}
+              />
             )}
             {textLabel ? (
               textLabel
@@ -143,7 +146,10 @@ const ButtonLinear = ({
             )}
 
             {IconRight && (
-              <IconRight color={iconRight.color ? iconRight.color : 'white'} />
+              <IconRight
+                variant="Bulk"
+                color={iconRight.color ? iconRight.color : 'white'}
+              />
             )}
           </View>
         )}
