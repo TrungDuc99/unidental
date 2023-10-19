@@ -1,7 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
-import React from 'react';
+import React, { useState } from 'react';
 
+import type { PaginationParams, QueryParams } from '@/api';
+import { usePosts } from '@/api/posts';
 import { EmptyList, View } from '@/ui';
 
 import { Card } from './card';
@@ -79,14 +81,32 @@ const data = [
   },
 ];
 export const Feed = () => {
-  // const { data, isLoading, isError } = usePosts();
   const { navigate } = useNavigation();
-
+  const [filters, setFilters] = useState<QueryParams>({
+    pageNumber: 1,
+    pageSize: 10,
+    search: '',
+    state: 1,
+  });
+  const [pagination, setPagination] = useState<PaginationParams>({
+    currentPage: 1,
+    totalPages: 1,
+    pageSize: 10,
+    totalCount: 1,
+    hasPrevious: false,
+    hasNext: false,
+  });
+  const { data, isLoading, isError, refetch, fetchNextPag } = usePosts(
+    filters,
+    setPagination
+  );
   const renderItem = React.useCallback(
     ({ item }: { item: any }) => <Card {...item} navigate={navigate} />,
     []
   );
-
+  console.log('====================================');
+  console.log(data);
+  console.log('====================================');
   // if (isError) {
   //   return (
   //     <View>
@@ -97,7 +117,7 @@ export const Feed = () => {
   return (
     <View className="flex-1 ">
       <FlashList
-        data={data}
+        data={data || []}
         renderItem={renderItem}
         keyExtractor={(_, index) => `item-${index}`}
         ListEmptyComponent={<EmptyList isLoading={false} />}

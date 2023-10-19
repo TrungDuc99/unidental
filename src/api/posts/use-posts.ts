@@ -1,17 +1,49 @@
-import type { AxiosError } from 'axios';
-import { createQuery } from 'react-query-kit';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { client } from '../common';
-import type { Post } from './types';
+import type { PaginationParams, QueryParams } from '../types';
+import { PostsApi } from './api-post';
 
-type Response = Post[];
-type Variables = void; // as react-query-kit is strongly typed, we need to specify the type of the variables as void in case we don't need them
-
-export const usePosts = createQuery<Response, Variables, AxiosError>(
-  'posts', // we recommend using  endpoint base url as primaryKey
-  ({ queryKey: [primaryKey] }) => {
-    // in case if variables is needed, we can use destructuring to get it from queryKey array like this: ({ queryKey: [primaryKey, variables] })
-    // primaryKey is 'posts' in this case
-    return client.get(`${primaryKey}`).then((response) => response.data.posts);
-  }
-);
+export const usePosts = (
+  filters: QueryParams,
+  setPagination: React.Dispatch<React.SetStateAction<PaginationParams>>
+) => {
+  return useInfiniteQuery(
+    ['Posts', filters],
+    async ({ pageParam = 1 }) => {
+      return PostsApi.getAllPosts({
+        ...filters,
+        pageNumber: pageParam,
+      });
+    },
+    {
+      getNextPageParam: (lastPage, page) => {
+        if (lastPage && lastPage.data.hasNext) {
+          return page.length + 1;
+        }
+      },
+      onSuccess: (dataResult) => {
+        if (dataResult) {
+          const { pages } = dataResult;
+          if (pages[0]) {
+            const {
+              currentPage,
+              totalPages,
+              pageSize,
+              totalCount,
+              hasNext,
+              hasPrevious,
+            } = pages[0]?.data;
+            setPagination({
+              currentPage,
+              hasNext,
+              hasPrevious,
+              pageSize,
+              totalCount,
+              totalPages,
+            });
+          }
+        }
+      },
+    }
+  );
+};
