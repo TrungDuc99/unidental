@@ -45,9 +45,9 @@ const SearchFriends = () => {
           // navigate('ChatRoom', { id: '', name: item.name });
           const users = [
             {
-              name: userInfo.name,
+              name: userInfo?.name ?? '',
               id: userInfo._id,
-              imageUri: userInfo.avatarUrl,
+              imageUri: userInfo?.avatarUrl ?? '',
             },
             {
               name: item.name,

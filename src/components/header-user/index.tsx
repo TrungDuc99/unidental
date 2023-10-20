@@ -19,7 +19,7 @@ const HeaderUser = (props: HeaderUserProps) => {
   return (
     <View className="mb-10 flex flex-row items-center">
       <Image
-        source={userInfo.avatarUrl}
+        source={userInfo?.avatarUrl ?? ''}
         style={{
           width: 50,
           height: 50,
@@ -27,8 +27,8 @@ const HeaderUser = (props: HeaderUserProps) => {
         }}
       />
       <View>
-        <Text className="ml-2 font-medium">{userInfo.name}</Text>
-        <Text className="ml-2 font-medium">{userInfo.email}</Text>
+        <Text className="ml-2 font-medium">{userInfo?.name ?? ''}</Text>
+        <Text className="ml-2 font-medium">{userInfo?.email ?? ''}</Text>
       </View>
     </View>
   );

@@ -62,7 +62,7 @@ export default function ChatRoomScreen() {
       message,
       room_id: id,
       user: {
-        name: userInfo.name,
+        name: userInfo?.name,
         id: userInfo._id,
       },
       timestamp: { hour, mins },
@@ -94,7 +94,7 @@ export default function ChatRoomScreen() {
             text,
             id,
             user: {
-              name: userInfo.name,
+              name: userInfo?.name ?? '',
               id: userInfo._id,
             },
           });

@@ -81,7 +81,7 @@ export const Home = () => {
           >
             <View className="flex flex-row">
               <Image
-                source={userInfo.avatarUrl}
+                source={userInfo?.avatarUrl ?? ''}
                 style={{
                   width: 50,
                   height: 50,
@@ -90,7 +90,7 @@ export const Home = () => {
               />
               <View>
                 <Text variant="md" className="ml-2 font-medium text-white">
-                  {userInfo.name}
+                  {userInfo?.name ?? ''}
                 </Text>
                 <Text className="ml-2 font-medium text-textprimary-50">
                   Xin chào!

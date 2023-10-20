@@ -1,10 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { User } from '@react-native-google-signin/google-signin';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { showMessage } from 'react-native-flash-message';
+import { useSelector } from 'react-redux';
 import { z } from 'zod';
 
-import { useAddPost } from '@/api';
+import { useAddPost } from '@/api/posts';
+import { selectUserInfo } from '@/feature/user/userSlice';
 import { Button, ControlledInput, showErrorMessage, View } from '@/ui';
 
 const schema = z.object({
@@ -15,6 +18,8 @@ const schema = z.object({
 type FormType = z.infer<typeof schema>;
 
 export const AddPost = () => {
+  const userInfo: User = useSelector(selectUserInfo);
+
   const { control, handleSubmit } = useForm<FormType>({
     resolver: zodResolver(schema),
   });
@@ -22,7 +27,7 @@ export const AddPost = () => {
 
   const onSubmit = (data: FormType) => {
     addPost(
-      { ...data, userId: 1 },
+      { ...data, userId: userInfo.user.id },
       {
         onSuccess: () => {
           showMessage({
@@ -47,9 +52,33 @@ export const AddPost = () => {
         control={control}
         multiline
       />
+      <ControlledInput
+        name="body"
+        label="Content"
+        control={control}
+        multiline
+      />
+      <ControlledInput
+        name="body"
+        label="Content"
+        control={control}
+        multiline
+      />
+      <ControlledInput
+        name="body"
+        label="Content"
+        control={control}
+        multiline
+      />
+      <ControlledInput
+        name="body"
+        label="Content"
+        control={control}
+        multiline
+      />
       <Button
         label="Add Post"
-        loading={isLoading}
+        loading={false}
         onPress={handleSubmit(onSubmit)}
       />
     </View>

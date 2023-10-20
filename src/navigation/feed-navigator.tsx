@@ -2,12 +2,13 @@ import { useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 
-import { AddPost, Feed, Post } from '@/screens/feed';
+import { AddPost, Feed } from '@/screens/feed';
+import Post from '@/screens/feed/post';
 import { Pressable, Text } from '@/ui';
 
 export type FeedStackParamList = {
   Feed: undefined;
-  Post: { id: number };
+  Post: { id: string };
   AddPost: undefined;
 };
 
@@ -38,7 +39,13 @@ export const FeedNavigator = () => {
             title: 'tin tức Unidental ',
           }}
         />
-        <Stack.Screen name="Post" component={Post} />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Post"
+          component={Post}
+        />
       </Stack.Group>
 
       <Stack.Screen name="AddPost" component={AddPost} />

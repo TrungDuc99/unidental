@@ -18,4 +18,7 @@ export type Posts = {
   countView: number;
   description: string;
 };
-export type PostsRes = TimeStamp & Posts;
+export type PostsRes = TimeStamp &
+  Posts & {
+    _id: string;
+  };

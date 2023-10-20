@@ -21,7 +21,7 @@ import Divider from '@/ui/core/drivider';
 
 type Props = any & { onPress?: () => void; navigate: any };
 
-export const Card = ({ id, title, description, image, navigate }: Props) => {
+export const Card = ({ _id, title, description, image, navigate }: Props) => {
   const [liked, setLiked] = React.useState<number>(0);
   const [visible, setIsVisible] = useState(false);
   React.useEffect(() => {
@@ -76,7 +76,7 @@ export const Card = ({ id, title, description, image, navigate }: Props) => {
         <Image
           className="h-56 w-full object-cover "
           source={{
-            uri: image,
+            uri: image[0],
           }}
         />
       </Pressable>
@@ -137,8 +137,8 @@ export const Card = ({ id, title, description, image, navigate }: Props) => {
         </View>
         <Pressable
           onPress={() => {
-            navigate('PostDetail', {
-              id: id,
+            navigate('Post', {
+              id: _id,
             });
           }}
           className="flex flex-row items-center"
