@@ -21,7 +21,7 @@ export const usePosts = (
   setPagination: React.Dispatch<React.SetStateAction<PaginationParams>>
 ) => {
   return useInfiniteQuery(
-    ['Posts', filters],
+    ['getPostList', filters],
     async ({ pageParam = 1 }) => {
       return PostsApi.getAllPosts({
         ...filters,
@@ -29,29 +29,28 @@ export const usePosts = (
       });
     },
     {
-      getNextPageParam: (lastPage, page) => {
-        if (lastPage && lastPage.data.hasNext) {
-          return page.length + 1;
-        }
-      },
       onSuccess: (dataResult) => {
         if (dataResult) {
           const { pages } = dataResult;
+
           if (pages[0]) {
             const {
               currentPage,
+              totalCount,
+              pageSize,
               totalPages,
-              pageSize,
-              totalCount,
-              hasNext,
-              hasPrevious,
+              next,
+              previous,
             } = pages[0]?.data;
+
             setPagination({
-              currentPage,
               hasNext,
               hasPrevious,
-              pageSize,
+              currentPage,
+              next,
+              previous,
               totalCount,
+              pageSize,
               totalPages,
             });
           }

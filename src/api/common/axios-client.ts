@@ -10,7 +10,7 @@ import { showErrorMessage } from '@/ui';
 
 console.log(Env.API_URL);
 const axiosClient = axios.create({
-  baseURL: `http://localhost:9888/api`,
+  baseURL: `https://server.ducdt.online/api`,
   headers: {
     'Content-Type': 'application/json',
   },

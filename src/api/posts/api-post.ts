@@ -4,23 +4,18 @@ import type { Posts, PostsRes } from './types';
 
 export const PostsApi = {
   getAllPosts: (params: any): Promise<ResponseData<ResultData<PostsRes>>> => {
-    console.log('=================asdasd===================');
-    console.log(axiosClient.get('/posts'));
-    console.log('====================================');
     return axiosClient.get('/posts');
   },
-  getPostOne: (postId: string): Promise<ResponseData<PostsRes>> => {
+  getPostOne: (postId: string): Promise<ResponseData<Posts>> => {
     return axiosClient.get(`/posts/${postId}`);
   },
-  getPostByUser: (
-    userId: string
-  ): Promise<ResponseData<ResultData<PostsRes>>> => {
+  getPostByUser: (userId: string): Promise<ResponseData<ResultData<Posts>>> => {
     return axiosClient.get(`/posts/${userId}`);
   },
-  updatePosts: (params: Posts): Promise<ResponseData<PostsRes>> => {
+  updatePosts: (params: Posts): Promise<ResponseData<Posts>> => {
     return axiosClient.post('/posts', params);
   },
-  createPosts: (params: Posts): Promise<ResponseData<PostsRes>> => {
+  createPosts: (params: Posts): Promise<ResponseData<Posts>> => {
     return axiosClient.post('/posts', params);
   },
 };

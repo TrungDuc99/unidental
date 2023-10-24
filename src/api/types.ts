@@ -18,6 +18,11 @@ export interface PaginationParams {
   totalCount: number;
   hasPrevious: boolean;
   hasNext: boolean;
+  previous?: {
+    pageNumber: number;
+    pageSize: number;
+  };
+  next?: { pageNumber: number; pageSize: number };
   [x: string]: any;
 }
 

@@ -4,21 +4,31 @@
 //   title: string;
 //   body: string;
 
-import type { TimeStamp } from '../types';
-
-// };
 export type Posts = {
+  _id?: string;
   content: string;
   userId: string;
   title: string;
-  image: any[];
-  topic: string;
-  countLike: number;
-  countComment: number;
-  countView: number;
+  image?: any[];
+  topic?: string;
+  countLike?: number;
+  countComment?: number;
+  countView?: number;
   description: string;
+  created?: Date;
+  updated?: Date;
 };
-export type PostsRes = TimeStamp &
-  Posts & {
-    _id: string;
-  };
+export type PostsRes = {
+  _id: string;
+  content: string;
+  userId: string;
+  title: string;
+  image?: any[];
+  topic?: string;
+  countLike?: number;
+  countComment?: number;
+  countView?: number;
+  description: string;
+  created?: Date;
+  updated?: Date;
+};

@@ -10,9 +10,9 @@ import { useDispatch } from 'react-redux';
 import { useAuth } from '@/core';
 import { useIsFirstTime } from '@/core/hooks';
 import { fetchUser } from '@/feature/user/userSlice';
-import { Onboarding } from '@/screens';
 import CartDetail from '@/screens/cart-detail';
 import ChatRoomScreen from '@/screens/chat-room';
+import Onboarding from '@/screens/onboarding/onboarding';
 import Scanned from '@/screens/scanned';
 import SearchFriends from '@/screens/search-friends';
 import { colors, Image, Text, VideoCall, View } from '@/ui';
@@ -47,7 +47,9 @@ export const Root = () => {
       }}
     >
       {isFirstTime ? (
-        <Stack.Screen name="Onboarding" component={Onboarding} />
+        <>
+          <Stack.Screen name="Onboarding" component={Onboarding} />
+        </>
       ) : (
         <Stack.Group>
           {status === 'signOut' ? (

@@ -124,11 +124,11 @@ export const LoginForm = ({
           email: '',
           name: userProfile.name,
           avatarUrl: userProfile.picture.data.url,
+          typeAccount: 4,
         },
       });
     } catch (error) {
       setLoading(false);
-      console.log(error);
     }
   };
   const onFacebookButtonPress = async () => {
@@ -173,6 +173,7 @@ export const LoginForm = ({
               email: result.email,
               name: result.name,
               avatarUrl: result.picture.data.url,
+              typeAccount: 1,
             },
           });
         }
@@ -200,6 +201,7 @@ export const LoginForm = ({
           email: userInfo.user.email,
           name: userInfo.user.name,
           avatarUrl: userInfo.user.photo,
+          typeAccount: 2,
         },
       });
     } catch (error: any) {

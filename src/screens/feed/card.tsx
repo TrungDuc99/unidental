@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import ImageView from 'react-native-image-viewing';
 
+import type { Posts } from '@/api/posts';
 import { ScaleSize } from '@/configs';
 import {
   Close,
@@ -19,9 +20,16 @@ import {
 import { CardBase } from '@/ui/core/card-base';
 import Divider from '@/ui/core/drivider';
 
-type Props = any & { onPress?: () => void; navigate: any };
+type Props = Posts & { onPress?: () => void; navigate: any };
 
-export const Card = ({ _id, title, description, image, navigate }: Props) => {
+export const Card = ({
+  _id,
+  title,
+  description,
+  image,
+  navigate,
+  countLike,
+}: Props) => {
   const [liked, setLiked] = React.useState<number>(0);
   const [visible, setIsVisible] = useState(false);
   React.useEffect(() => {
@@ -83,7 +91,7 @@ export const Card = ({ _id, title, description, image, navigate }: Props) => {
       <View className="flex flex-row items-center px-3 pt-2 pb-1">
         <Heart size={20} color={'red'} variant="Bold" />
         <Text variant="sm" className="f ml-1 text-[#5A626A]">
-          99k
+          {countLike}
         </Text>
       </View>
       <Divider orientation={'horizontal'} color={'normal'} />

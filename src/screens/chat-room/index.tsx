@@ -5,7 +5,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import * as io from 'socket.io-client';
-const host = 'http://localhost:3002';
+const host = 'https://server-chat.ducdt.online';
 import Lottie from 'lottie-react-native';
 
 import Message from '@/components/Message';

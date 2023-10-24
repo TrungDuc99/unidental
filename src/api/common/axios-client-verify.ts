@@ -4,7 +4,7 @@ import queryString from 'query-string';
 
 console.log(Env.API_URL);
 const axiosClientVerify = axios.create({
-  baseURL: `http://localhost:9888/api/sms/v1`,
+  baseURL: `https://server.ducdt.online/api/sms/v1`,
   headers: {
     'Content-Type': 'application/json',
   },
